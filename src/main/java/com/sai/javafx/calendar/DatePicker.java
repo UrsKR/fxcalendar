@@ -1,50 +1,19 @@
 package com.sai.javafx.calendar;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.paint.Color;
-
-import java.util.Locale;
 
 public class DatePicker {
 
     private SimpleIntegerProperty selectedDate = new SimpleIntegerProperty();
     private SimpleIntegerProperty selectedMonth = new SimpleIntegerProperty();
     private SimpleIntegerProperty selectedYear = new SimpleIntegerProperty();
+    private final CalendarProperties properties;
 
-    private FXCalendar fxCalendar;
-
-
-    public DatePicker(FXCalendar fxCalendar) {
-        this.fxCalendar = fxCalendar;
+    public DatePicker(FXCalendar fxCalendar, CalendarProperties properties) {
+        this.properties = properties;
         selectedDate.set(fxCalendar.getSelectedDate());
         selectedMonth.set(fxCalendar.getSelectedMonth());
         selectedYear.set(fxCalendar.getSelectedYear());
-        fxCalendar.setLocale(Locale.ENGLISH);
-    }
-
-    /* GETTER'S FROM FXCALENDAR * */
-    public Color getBaseColor() {
-        return this.fxCalendar.getBaseColor();
-    }
-
-    public FXCalendarUtility getFXCalendarUtility() {
-        return this.fxCalendar.getFXCalendarUtility();
-    }
-
-    public Locale getLocale() {
-        return this.fxCalendar.getLocale();
-    }
-
-    public boolean getShowWeekNumber() {
-        return this.fxCalendar.getShowWeekNumber();
-    }
-
-    public FXCalendar getFxCalendar() {
-        return this.fxCalendar;
-    }
-
-    public int getSelectedDate() {
-        return selectedDate.get();
     }
 
     public int getSelectedMonth() {
@@ -79,11 +48,10 @@ public class DatePicker {
         return selectedYear;
     }
 
-    /* GETTER'S FROM DATEPICKER * */
     public void incrementMonth() {
         int currentMonth = selectedMonth.get();
-        if (currentMonth >= (fxCalendar.getFXCalendarUtility().getMonths(this.getLocale()).length - 2)) {
-            this.selectedMonth.set(0);
+        if (currentMonth >= (getIndexOfLastMonth())) {
+            selectedMonth.set(0);
             increaseYear();
         } else {
             increaseMonth(currentMonth);
@@ -93,11 +61,15 @@ public class DatePicker {
     public void decrementMonth() {
         int currentMonth = selectedMonth.get();
         if (currentMonth <= 0) {
-            this.selectedMonth.set(fxCalendar.getFXCalendarUtility().getMonths(this.getLocale()).length - 2);
+            selectedMonth.set(getIndexOfLastMonth());
             decreaseYear();
         } else {
             decreaseMonth(currentMonth);
         }
+    }
+
+    private int getIndexOfLastMonth() {
+        return properties.getFXCalendarUtility().getMonths(properties.getLocale()).length - 2;
     }
 
     private void increaseMonth(int currentMonth) {

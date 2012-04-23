@@ -28,6 +28,7 @@ import java.util.List;
 public class BasePane extends Group {
 	private DatePicker datePicker;
     private final DatePickerPane datePickerPane;
+    private final CalendarProperties properties;
     private StackPane navigatorPane;
 	private StackPane weekPane;
 	private StackPane deskPane;
@@ -38,14 +39,15 @@ public class BasePane extends Group {
 	public static final String WEEKNUMER_LABEL = "Wk.";
 	private BaseNavigatorArrowButton prevMonthBtn;
 
-	public BasePane(DatePicker datePicker, DatePickerPane datePickerPane) {
-		this.datePicker = datePicker;
+	public BasePane(DatePicker datePicker, DatePickerPane datePickerPane, CalendarProperties properties) {
+        this.datePicker = datePicker;
         this.datePickerPane = datePickerPane;
+        this.properties = properties;
         configureNavigator();
-		configureWeekHeader();
-		configureDesk();
-		configureFooter();
-	}
+        configureWeekHeader();
+        configureDesk();
+        configureFooter();
+    }
 
 	/*
 	 * *********************************************************************************************************************
@@ -71,7 +73,7 @@ public class BasePane extends Group {
 		datePicker.selectedMonthProperty().addListener(listener);
 		datePicker.selectedYearProperty().addListener(listener);
 
-		FXCalendarUtility.setBaseColorToNode(navigatorPane, datePicker.getBaseColor());
+		FXCalendarUtility.setBaseColorToNode(navigatorPane, properties.getBaseColor());
 		navigatorPane.setPrefWidth(datePickerPane.getBounds().getWidth());
 		navigatorPane.setPrefHeight(26);
 		navigatorPane.getStyleClass().add("fx-calendar-navigator");
@@ -92,7 +94,7 @@ public class BasePane extends Group {
 		double pos = (datePickerPane.getBounds().getWidth() / 2) - 12;
 
 		/* Getting the Next Month Button. */
-		BaseNavigatorArrowButton nextMonthBtn = new BaseNavigatorArrowButton(Side.RIGHT, datePicker.getBaseColor());
+		BaseNavigatorArrowButton nextMonthBtn = new BaseNavigatorArrowButton(Side.RIGHT, properties.getBaseColor());
 		nextMonthBtn.setTranslateX(pos);
 		nextMonthBtn.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
@@ -102,7 +104,7 @@ public class BasePane extends Group {
 		});
 
 		/* Getting the Previous Month Button. */
-		prevMonthBtn = new BaseNavigatorArrowButton(Side.LEFT, datePicker.getBaseColor());
+		prevMonthBtn = new BaseNavigatorArrowButton(Side.LEFT, properties.getBaseColor());
 		prevMonthBtn.setTranslateX(-pos);
 		prevMonthBtn.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
@@ -118,7 +120,7 @@ public class BasePane extends Group {
 	}
 
 	public void setLabelText() {
-		displayLabel.setText(this.datePicker.getFXCalendarUtility().getMonths(this.datePicker.getLocale())[this.datePicker.getSelectedMonth()] + " "
+		displayLabel.setText(properties.getFXCalendarUtility().getMonths(properties.getLocale())[this.datePicker.getSelectedMonth()] + " "
 				+ this.datePicker.getSelectedYear());
 	}
 
@@ -132,12 +134,12 @@ public class BasePane extends Group {
 	private void configureWeekHeader() {
 		weekPane = new StackPane();
 
-		FXCalendarUtility.setBaseColorToNode(weekPane, datePicker.getBaseColor());
+		FXCalendarUtility.setBaseColorToNode(weekPane, properties.getBaseColor());
 		weekPane.setPrefWidth(datePickerPane.getBounds().getWidth());
 		weekPane.setPrefHeight(18);
 		weekPane.getStyleClass().add("fx-calendar-weekpane");
 
-		int count = datePicker.getShowWeekNumber() ? 8 : 7;
+		int count = properties.getShowWeekNumber() ? 8 : 7;
 
 		TilePane tp = new TilePane();
 		tp.setPrefColumns(count);
@@ -156,24 +158,24 @@ public class BasePane extends Group {
 		Rectangle2D cellBounds = calculateBounds();
 		WeekCell cell;
 		List<WeekCell> wkCells = new ArrayList<WeekCell>(count);
-		if (datePicker.getShowWeekNumber()) {
+		if (properties.getShowWeekNumber()) {
 			cell = new WeekCell("week_num", WEEKNUMER_LABEL, cellBounds.getWidth(), cellBounds.getHeight());
 			FXCalendarUtility.setBaseColorToNode(cell.getTxt(), Color.BLUE);
 			wkCells.add(cell);
 		}
 
-		String[] wks = datePicker.getFXCalendarUtility().getShortestWeekDays(datePicker.getLocale());
+		String[] wks = properties.getFXCalendarUtility().getShortestWeekDays(properties.getLocale());
 		for (int i = 1; i < wks.length; i++) {
 			cell = new WeekCell("week_" + wks[i], wks[i], cellBounds.getWidth(), cellBounds.getHeight());
-			FXCalendarUtility.setBaseColorToNode(cell.getTxt(), datePicker.getBaseColor());
+			FXCalendarUtility.setBaseColorToNode(cell.getTxt(), properties.getBaseColor());
 			wkCells.add(cell);
 		}
 		weekCellList.addAll(wkCells);
 	}
 
 	public void setWeekLabels() {
-		String[] wks = datePicker.getFXCalendarUtility().getShortestWeekDays(datePicker.getLocale());
-		int pos = datePicker.getShowWeekNumber() ? 1 : 0;
+		String[] wks = properties.getFXCalendarUtility().getShortestWeekDays(properties.getLocale());
+		int pos = properties.getShowWeekNumber() ? 1 : 0;
 		for (int i = 1; i < wks.length; i++) {
 			weekCellList.get(pos).setContent(wks[i]);
 			pos++;
@@ -197,7 +199,7 @@ public class BasePane extends Group {
 
 	private void configureDesk() {
 		deskPane = new StackPane();
-		FXCalendarUtility.setBaseColorToNode(deskPane, datePicker.getBaseColor());
+		FXCalendarUtility.setBaseColorToNode(deskPane, properties.getBaseColor());
 		deskPane.setPrefWidth(datePickerPane.getBounds().getWidth());
 		deskPane.setPrefHeight(120);
 		deskPane.getStyleClass().add("fx-calendar-desk");
@@ -235,7 +237,7 @@ public class BasePane extends Group {
 	}
 
 	private int getColCount() {
-		return datePicker.getShowWeekNumber() ? 8 : 7;
+		return properties.getShowWeekNumber() ? 8 : 7;
 	}
 
 	private void generateDateCells() {
@@ -246,9 +248,9 @@ public class BasePane extends Group {
 
 		for (int i = 0; i < (count * 6); i++) {
 			dateCell = new DateCell("cell" + i, cellBounds.getWidth(), cellBounds.getHeight());
-			FXCalendarUtility.setBaseColorToNode(dateCell, datePicker.getBaseColor());
+			FXCalendarUtility.setBaseColorToNode(dateCell, properties.getBaseColor());
 			// For Week Number cells
-			if (datePicker.getShowWeekNumber() && i % 8 == 0) {
+			if (properties.getShowWeekNumber() && i % 8 == 0) {
 				FXCalendarUtility.setBaseColorToNode(dateCell.getTxt(), Color.BLUE);
 				dateCell.setWeekNumCell(true);
 				dateCell.getTxt().getStyleClass().add("fx-calendar-weektext");
@@ -269,7 +271,7 @@ public class BasePane extends Group {
 		Calendar paneFirstDate = (Calendar) firstDayOfMonth.clone();
 		
 		// If Monday is first day of week.
-		if(Calendar.getInstance(datePicker.getLocale()).getFirstDayOfWeek()==2){
+		if(Calendar.getInstance(properties.getLocale()).getFirstDayOfWeek()==2){
 			int diff =0;
 			if(firstDayOfMonth.get(Calendar.DAY_OF_WEEK)==1){
 				diff = 6;
@@ -285,9 +287,9 @@ public class BasePane extends Group {
 		Calendar dummyDate = (Calendar) paneFirstDate.clone();
 		Calendar systemDate = FXCalendarUtility.getCurrentDateCalendar();
 
-		int fxDate = datePicker.getFxCalendar().getSelectedDate();
-		int fxMonth = datePicker.getFxCalendar().getSelectedMonth();
-		int fxYear = datePicker.getFxCalendar().getSelectedYear();
+		int fxDate = properties.getFxCalendar().getSelectedDate();
+		int fxMonth = properties.getFxCalendar().getSelectedMonth();
+		int fxYear = properties.getFxCalendar().getSelectedYear();
 
 		for (final DateCell dateCell : dateCellList) {
 			if (!dateCell.isWeekNumCell()) {
@@ -338,14 +340,14 @@ public class BasePane extends Group {
 						datePicker.setSelectedMonth(month);
 						datePicker.setSelectedDate(date);
 
-						datePicker.getFxCalendar().setSelectedDate(date);
-						datePicker.getFxCalendar().setSelectedMonth(month);
-						datePicker.getFxCalendar().setSelectedYear(year);
-						datePicker.getFxCalendar().setTriggered(true);
+						properties.getFxCalendar().setSelectedDate(date);
+						properties.getFxCalendar().setSelectedMonth(month);
+						properties.getFxCalendar().setSelectedYear(year);
+						properties.getFxCalendar().setTriggered(true);
 
-						datePicker.getFxCalendar().getTextField().requestFocus();
-						datePicker.getFxCalendar().showDateInTextField();
-						datePicker.getFxCalendar().hidePopup();
+						properties.getFxCalendar().getTextField().requestFocus();
+						properties.getFxCalendar().showDateInTextField();
+						properties.getFxCalendar().hidePopup();
 					}
 				});
 
@@ -377,7 +379,7 @@ public class BasePane extends Group {
 	 */
 	private void configureFooter() {
 		footerPane = new StackPane();
-		FXCalendarUtility.setBaseColorToNode(footerPane, datePicker.getBaseColor());
+		FXCalendarUtility.setBaseColorToNode(footerPane, properties.getBaseColor());
 		footerPane.setPrefWidth(datePickerPane.getBounds().getWidth());
 		footerPane.setPrefHeight(32);
 		footerPane.getStyleClass().add("fx-calendar-footer");
@@ -390,10 +392,10 @@ public class BasePane extends Group {
 			@Override
 			public void handle(ActionEvent event) {
 				Calendar today = FXCalendarUtility.getCurrentDateCalendar();
-				datePicker.getFxCalendar().setSelectedDate(today.get(Calendar.DAY_OF_MONTH));
-				datePicker.getFxCalendar().setSelectedMonth(today.get(Calendar.MONTH));
-				datePicker.getFxCalendar().setSelectedYear(today.get(Calendar.YEAR));
-				datePicker.getFxCalendar().hidePopup();
+				properties.getFxCalendar().setSelectedDate(today.get(Calendar.DAY_OF_MONTH));
+				properties.getFxCalendar().setSelectedMonth(today.get(Calendar.MONTH));
+				properties.getFxCalendar().setSelectedYear(today.get(Calendar.YEAR));
+				properties.getFxCalendar().hidePopup();
 			}
 		});
 

@@ -10,13 +10,13 @@ public class DatePickerPane extends StackPane {
     private BasePane basePane;
     private TopPane topPane;
 
-    public DatePickerPane(DatePicker datePicker) {
+    public DatePickerPane(DatePicker datePicker, CalendarProperties properties) {
         setPrefHeight(calendarBounds.getHeight());
         setPrefWidth(calendarBounds.getWidth());
         setAlignment(Pos.TOP_LEFT);
-        FXCalendarUtility.setBaseColorToNode(this, datePicker.getBaseColor());
-        this.basePane = new BasePane(datePicker, this);
-        this.topPane = new TopPane(datePicker, this);
+        FXCalendarUtility.setBaseColorToNode(this, properties.getBaseColor());
+        this.basePane = new BasePane(datePicker, this, properties);
+        this.topPane = new TopPane(datePicker, this, properties);
         getChildren().addAll(basePane, topPane);
         showBasePane();
     }

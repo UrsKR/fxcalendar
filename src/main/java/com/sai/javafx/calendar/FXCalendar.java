@@ -207,8 +207,9 @@ public class FXCalendar extends HBox {
 	 */
 	private void initiatePopUp() {
 		if (datePicker == null) {
-			datePicker = new DatePicker(FXCalendar.this);
-            datePickerPane = new DatePickerPane(datePicker);
+            CalendarProperties properties = new CalendarProperties(FXCalendar.this);
+            datePicker = new DatePicker(FXCalendar.this, properties);
+            datePickerPane = new DatePickerPane(datePicker, properties);
             popup.getContent().add(datePickerPane);
 		}
 

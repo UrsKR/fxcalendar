@@ -19,6 +19,7 @@ import javafx.scene.layout.TilePane;
 public class TopPane extends Group {
 	private DatePicker datePicker;
     private final DatePickerPane datePickerPane;
+    private final CalendarProperties properties;
     private StackPane monthPane;
 	private StackPane yearPane;
 	private StackPane footerPane;
@@ -28,9 +29,10 @@ public class TopPane extends Group {
 	private CalendarToggleButton[] yearButtons = new CalendarToggleButton[10];
 	private YearNavigatorArrowButton prevBtn;
 	
-	public TopPane(DatePicker datePicker, DatePickerPane datePickerPane) {
+	public TopPane(DatePicker datePicker, DatePickerPane datePickerPane, CalendarProperties properties) {
 		this.datePicker = datePicker;
         this.datePickerPane = datePickerPane;
+        this.properties = properties;
 
         setMonth(datePicker.getSelectedMonth());
 		setYear(datePicker.getSelectedYear());
@@ -83,7 +85,7 @@ public class TopPane extends Group {
 	 */
 	private void configureMonthPane(HBox hb) {
 		monthPane = new StackPane();
-		FXCalendarUtility.setBaseColorToNode(monthPane, datePicker.getBaseColor());
+		FXCalendarUtility.setBaseColorToNode(monthPane, properties.getBaseColor());
 
 		monthPane.setPrefWidth((datePickerPane.getBounds().getWidth() - 1) / 2);
 		monthPane.setPrefHeight(164);
@@ -108,7 +110,7 @@ public class TopPane extends Group {
 	}
 
 	private void generateMonthButtons() {
-		String[] months = datePicker.getFXCalendarUtility().getShortMonths(datePicker.getLocale());
+		String[] months = properties.getFXCalendarUtility().getShortMonths(properties.getLocale());
 		int evenValue = 0;
 		int oddValue = 6;
 
@@ -123,7 +125,7 @@ public class TopPane extends Group {
 			}
 
 			final CalendarToggleButton btn = new CalendarToggleButton(months[pos], pos);
-			btn.setBaseColor(datePicker.getBaseColor());
+			btn.setBaseColor(properties.getBaseColor());
 			btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent e) {
@@ -136,7 +138,7 @@ public class TopPane extends Group {
 	}
 
 	public void setTopMonths() {
-		String[] months = datePicker.getFXCalendarUtility().getShortMonths(datePicker.getLocale());
+		String[] months = properties.getFXCalendarUtility().getShortMonths(properties.getLocale());
 		int evenValue = 0;
 		int oddValue = 6;
 		for (int i = 0; i < 12; i++) {
@@ -171,7 +173,7 @@ public class TopPane extends Group {
 	 */
 	private void configureYearPane(HBox hb) {
 		yearPane = new StackPane();
-		FXCalendarUtility.setBaseColorToNode(yearPane, datePicker.getBaseColor());
+		FXCalendarUtility.setBaseColorToNode(yearPane, properties.getBaseColor());
 
 		yearPane.setPrefWidth(datePickerPane.getBounds().getWidth() / 2);
 		yearPane.setPrefHeight(164);
@@ -183,8 +185,8 @@ public class TopPane extends Group {
 		tilePane.setVgap(8);
 		tilePane.setTranslateX(5);
 
-		prevBtn = new YearNavigatorArrowButton(Side.LEFT, datePicker.getBaseColor());
-		YearNavigatorArrowButton nextBtn = new YearNavigatorArrowButton(Side.RIGHT, datePicker.getBaseColor());
+		prevBtn = new YearNavigatorArrowButton(Side.LEFT, properties.getBaseColor());
+		YearNavigatorArrowButton nextBtn = new YearNavigatorArrowButton(Side.RIGHT, properties.getBaseColor());
 
 		prevBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
@@ -233,7 +235,7 @@ public class TopPane extends Group {
 			}
 
 			final CalendarToggleButton btn = new CalendarToggleButton(arr[pos] + "", new Integer(arr[pos]));
-			btn.setBaseColor(datePicker.getBaseColor());
+			btn.setBaseColor(properties.getBaseColor());
 			btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent e) {
@@ -303,7 +305,7 @@ public class TopPane extends Group {
 	 */
 	private void configureFooter() {
 		footerPane = new StackPane();
-		FXCalendarUtility.setBaseColorToNode(footerPane, datePicker.getBaseColor());
+		FXCalendarUtility.setBaseColorToNode(footerPane, properties.getBaseColor());
 
 		footerPane.setPrefWidth(datePickerPane.getBounds().getWidth());
 		footerPane.setPrefHeight(32);
