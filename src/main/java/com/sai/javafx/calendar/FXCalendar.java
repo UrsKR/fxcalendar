@@ -31,18 +31,16 @@ public class FXCalendar extends HBox implements DateSelection {
     private final SimpleObjectProperty<Color> baseColor = new SimpleObjectProperty<>();
     private SimpleDoubleProperty dateTextWidth = new SimpleDoubleProperty(74);
     private SimpleObjectProperty<Date> value = new SimpleObjectProperty<>();
-    private boolean showWeekNumber;
     private DateTextField dateTxtField;
     private Popup popup;
     private DatePicker datePicker;
-    private final SimpleObjectProperty<Locale> locale = new SimpleObjectProperty<>();
     private final String DEFAULT_STYLE_CLASS = "fx-calendar";
     private DatePickerPane datePickerPane;
+    private CalendarProperties properties;
 
     public FXCalendar() {
-        super();
+        properties = new CalendarProperties(FXCalendar.this);
         super.getStyleClass().add(DEFAULT_STYLE_CLASS);
-        this.locale.set(Locale.ENGLISH);
         this.baseColor.set(Color.web("#313131"));
         setAlignment(Pos.CENTER);
         configureCalendar();
@@ -131,16 +129,14 @@ public class FXCalendar extends HBox implements DateSelection {
         selectedYearProperty().addListener(listener);
         showDateInTextField();
 
-        /* Adding change listeners for locale. */
-        ChangeListener<Locale> localeListener = new ChangeListener<Locale>() {
+        properties.localeProperty().addListener(new ChangeListener<Locale>() {
             @Override
             public void changed(ObservableValue<? extends Locale> arg0, Locale arg1, Locale arg2) {
                 if (datePicker != null) {
                     refreshLocale(arg2);
                 }
             }
-        };
-        localeProperty().addListener(localeListener);
+        });
 
         /* Adding listeners for styles. */
         getStyleClass().addListener(new ListChangeListener<String>() {
@@ -179,7 +175,6 @@ public class FXCalendar extends HBox implements DateSelection {
      */
     private void initiatePopUp() {
         if (datePicker == null) {
-            CalendarProperties properties = new CalendarProperties(FXCalendar.this);
             Date intialDate = getInitialDateForPicker();
             datePicker = new DatePicker(intialDate, properties, this);
             datePickerPane = new DatePickerPane(datePicker, properties);
@@ -234,26 +229,7 @@ public class FXCalendar extends HBox implements DateSelection {
         return baseColor;
     }
 
-    /**
-     * @return the locale
-     */
-    public Locale getLocale() {
-        return locale.get();
-    }
 
-    /**
-     * @param locale the locale to set
-     */
-    public void setLocale(Locale locale) {
-        this.locale.set(locale);
-    }
-
-    /**
-     * @return locale Property
-     */
-    public SimpleObjectProperty<Locale> localeProperty() {
-        return locale;
-    }
 
     /**
      * @return the dateTextWidth
@@ -309,14 +285,6 @@ public class FXCalendar extends HBox implements DateSelection {
         return selectedYear;
     }
 
-    public boolean getShowWeekNumber() {
-        return showWeekNumber;
-    }
-
-    public void setShowWeekNumber(boolean showWeekNumber) {
-        this.showWeekNumber = showWeekNumber;
-    }
-
     /**
      * @return the value
      */
@@ -359,5 +327,9 @@ public class FXCalendar extends HBox implements DateSelection {
         getTextField().requestFocus();
         showDateInTextField();
         hidePopup();
+    }
+
+    public CalendarProperties getCalendarProperties() {
+        return properties;
     }
 }
