@@ -4,4 +4,6 @@ import java.util.Date;
 
 public interface DateSelection {
     void select(Date time);
+
+    Date getSelection();
 }

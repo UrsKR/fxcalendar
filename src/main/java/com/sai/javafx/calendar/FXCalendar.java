@@ -6,10 +6,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
+import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -50,7 +49,7 @@ public class FXCalendar extends HBox implements DateSelection {
         addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             public void handle(KeyEvent event) {
                 if (KeyCode.UP.equals(event.getCode()) || KeyCode.DOWN.equals(event.getCode()) || KeyCode.ENTER.equals(event.getCode())) {
-                    pickerPopup.setInitialDate(getInitialDateForPicker());
+                    pickerPopup.setInitialDate(new TodayDefaultSelection(FXCalendar.this).getSelection());
                     pickerPopup.show();
                 } else if (KeyCode.TAB.equals(event.getCode())) {
                     pickerPopup.hide();
@@ -58,31 +57,13 @@ public class FXCalendar extends HBox implements DateSelection {
             }
         });
         createDateTextField(dateFormatValidator);
-        Button popupButton = createPopUpButton();
+        Node popupButton = new DatePopupButton(pickerPopup, new TodayDefaultSelection(this)).getComponent();
         getChildren().addAll(dateTxtField, popupButton);
     }
 
-    private Button createPopUpButton() {
-        Button popupButton = new Button();
-        popupButton.getStyleClass().add("dateButton");
-        popupButton.setGraphic(FXCalendarUtility.getDateImage());
-        popupButton.setFocusTraversable(false);
-        popupButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent paramT) {
-                pickerPopup.setInitialDate(getInitialDateForPicker());
-                pickerPopup.show();
-            }
-        });
-        return popupButton;
-    }
-
-    private Date getInitialDateForPicker() {
-        Date currentDate = getValue();
-        if (currentDate == null) {
-            return new Date();
-        }
-        return currentDate;
+    @Override
+    public Date getSelection() {
+        return getValue();
     }
 
     private void createDateTextField(final DateFormatValidator dateFormatValidator) {

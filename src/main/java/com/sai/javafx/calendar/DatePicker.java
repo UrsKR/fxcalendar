@@ -102,6 +102,11 @@ public class DatePicker implements DateSelection {
         selection.select(time);
     }
 
+    @Override
+    public Date getSelection() {
+        return selection.getSelection();
+    }
+
     private void setTo(Date date) {
         Calendar calendar = FXCalendarUtility.getDateCalendar(date);
         selectedDate.set(calendar.get(Calendar.DAY_OF_MONTH));

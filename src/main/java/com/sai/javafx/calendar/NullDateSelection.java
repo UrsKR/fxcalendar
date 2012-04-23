@@ -7,4 +7,9 @@ public class NullDateSelection implements DateSelection {
     public void select(Date date) {
         //Nothing to do
     }
+
+    @Override
+    public Date getSelection() {
+        return new Date();
+    }
 }
