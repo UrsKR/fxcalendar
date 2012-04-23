@@ -2,6 +2,9 @@ package com.sai.javafx.calendar;
 
 import javafx.beans.property.SimpleIntegerProperty;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class DatePicker {
 
     private SimpleIntegerProperty selectedDate = new SimpleIntegerProperty();
@@ -9,11 +12,12 @@ public class DatePicker {
     private SimpleIntegerProperty selectedYear = new SimpleIntegerProperty();
     private final CalendarProperties properties;
 
-    public DatePicker(FXCalendar fxCalendar, CalendarProperties properties) {
+    public DatePicker(Date initialDate, CalendarProperties properties) {
         this.properties = properties;
-        selectedDate.set(fxCalendar.getSelectedDate());
-        selectedMonth.set(fxCalendar.getSelectedMonth());
-        selectedYear.set(fxCalendar.getSelectedYear());
+        Calendar calendar = FXCalendarUtility.getDateCalendar(initialDate);
+        selectedDate.set(calendar.get(Calendar.DAY_OF_MONTH));
+        selectedMonth.set(calendar.get(Calendar.MONTH));
+        selectedYear.set(calendar.get(Calendar.YEAR));
     }
 
     public int getSelectedMonth() {
