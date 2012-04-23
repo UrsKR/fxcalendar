@@ -287,10 +287,9 @@ public class BasePane extends Group {
 		Calendar dummyDate = (Calendar) paneFirstDate.clone();
 		Calendar systemDate = FXCalendarUtility.getCalendarSetToToday();
 
-        FXCalendar fxCalendar = properties.getFxCalendar();
-        int fxDate = fxCalendar.getSelectedDate();
-		int fxMonth = fxCalendar.getSelectedMonth();
-		int fxYear = fxCalendar.getSelectedYear();
+        int fxDate = datePicker.getSelectedDate();
+		int fxMonth = datePicker.getSelectedMonth();
+		int fxYear = datePicker.getSelectedYear();
 
 		for (final DateCell dateCell : dateCellList) {
 			if (!dateCell.isWeekNumCell()) {

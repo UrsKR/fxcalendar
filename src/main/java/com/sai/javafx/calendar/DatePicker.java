@@ -20,6 +20,10 @@ public class DatePicker {
         selectedYear.set(calendar.get(Calendar.YEAR));
     }
 
+    public int getSelectedDate(){
+        return selectedDate.get();
+    }
+
     public int getSelectedMonth() {
         return selectedMonth.get();
     }

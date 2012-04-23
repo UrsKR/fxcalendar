@@ -208,16 +208,21 @@ public class FXCalendar extends HBox {
     private void initiatePopUp() {
         if (datePicker == null) {
             CalendarProperties properties = new CalendarProperties(FXCalendar.this);
-            Date intialDate = getValue();
-            if (intialDate == null) {
-                intialDate = new Date();
-            }
+            Date intialDate = getInitialDateForPicker();
             datePicker = new DatePicker(intialDate, properties);
             datePickerPane = new DatePickerPane(datePicker, properties);
             popup.getContent().add(datePickerPane);
         }
         datePickerPane.getBasePane().generateDates();
         datePickerPane.showBasePane();
+    }
+
+    private Date getInitialDateForPicker() {
+        Date currentDate = getValue();
+        if (currentDate == null) {
+            return new Date();
+        }
+        return currentDate;
     }
 
     /**
