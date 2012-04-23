@@ -15,7 +15,7 @@ public class DatePickerPopup {
     private final DateSelection dateSelection;
     private DatePickerPane datePickerPane;
     private DatePicker datePicker;
-    private Date initialDate;
+    private Date initialDate = new Date();
 
     public DatePickerPopup(Node parentNode, CalendarProperties properties, DateSelection dateSelection) {
         this.parentNode = parentNode;
