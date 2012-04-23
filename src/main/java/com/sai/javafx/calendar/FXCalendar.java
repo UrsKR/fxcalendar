@@ -40,9 +40,10 @@ public class FXCalendar extends HBox {
 	private Popup popup;
 	private DatePicker datePicker;
 	private final SimpleObjectProperty<Locale> locale = new SimpleObjectProperty<Locale>();
-	private final String DEFAULT_STYLE_CLASS = "fx-calendar";
+    private final String DEFAULT_STYLE_CLASS = "fx-calendar";
+    private DatePickerPane datePickerPane;
 
-	public FXCalendar() {
+    public FXCalendar() {
 		super();
 		super.getStyleClass().add(DEFAULT_STYLE_CLASS);
 		this.locale.set(Locale.ENGLISH);
@@ -63,15 +64,15 @@ public class FXCalendar extends HBox {
 		popup.setHideOnEscape(true);
 
 		addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent event) {
-				if (KeyCode.UP.equals(event.getCode()) || KeyCode.DOWN.equals(event.getCode()) || KeyCode.ENTER.equals(event.getCode())) {
-					initiatePopUp();
-					showPopup();
-				} else if (KeyCode.TAB.equals(event.getCode())) {
-					hidePopup();
-				}
-			}
-		});
+            public void handle(KeyEvent event) {
+                if (KeyCode.UP.equals(event.getCode()) || KeyCode.DOWN.equals(event.getCode()) || KeyCode.ENTER.equals(event.getCode())) {
+                    initiatePopUp();
+                    showPopup();
+                } else if (KeyCode.TAB.equals(event.getCode())) {
+                    hidePopup();
+                }
+            }
+        });
 
 		/* Creating the date text field. */
 		dateTxtField = new DateTextField();
@@ -193,9 +194,9 @@ public class FXCalendar extends HBox {
 		fxCalendarUtility.resetShortestWeekDays(locale);
 		fxCalendarUtility.resetShortMonths(locale);
 		fxCalendarUtility.resetMonths(locale);
-		datePicker.getBasePane().setLabelText();
-		datePicker.getBasePane().setWeekLabels();
-		datePicker.getTopPane().setTopMonths();
+		datePickerPane.getBasePane().setLabelText();
+		datePickerPane.getBasePane().setWeekLabels();
+		datePickerPane.getTopPane().setTopMonths();
 	}
 
 	/**
@@ -204,7 +205,8 @@ public class FXCalendar extends HBox {
 	private void initiatePopUp() {
 		if (datePicker == null) {
 			datePicker = new DatePicker(FXCalendar.this);
-			popup.getContent().add(datePicker);
+            datePickerPane = new DatePickerPane(datePicker);
+            popup.getContent().add(datePickerPane);
 		}
 
 		// If there is no date selected, then setting the system date.
@@ -220,8 +222,8 @@ public class FXCalendar extends HBox {
 			datePicker.selectedYearProperty().set(selectedYearProperty().get());
 		}
 
-		datePicker.getBasePane().generateDates();
-		datePicker.showBasePane();
+		datePickerPane.getBasePane().generateDates();
+		datePickerPane.showBasePane();
 	}
 
 	/**

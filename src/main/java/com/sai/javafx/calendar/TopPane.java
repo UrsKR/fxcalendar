@@ -18,7 +18,8 @@ import javafx.scene.layout.TilePane;
 
 public class TopPane extends Group {
 	private DatePicker datePicker;
-	private StackPane monthPane;
+    private final DatePickerPane datePickerPane;
+    private StackPane monthPane;
 	private StackPane yearPane;
 	private StackPane footerPane;
 	private SimpleIntegerProperty month = new SimpleIntegerProperty();
@@ -27,11 +28,11 @@ public class TopPane extends Group {
 	private CalendarToggleButton[] yearButtons = new CalendarToggleButton[10];
 	private YearNavigatorArrowButton prevBtn;
 	
-	public TopPane(DatePicker datePicker) {
-		super();
+	public TopPane(DatePicker datePicker, DatePickerPane datePickerPane) {
 		this.datePicker = datePicker;
+        this.datePickerPane = datePickerPane;
 
-		setMonth(datePicker.getSelectedMonth());
+        setMonth(datePicker.getSelectedMonth());
 		setYear(datePicker.getSelectedYear());
 
 		HBox hb = new HBox();
@@ -84,7 +85,7 @@ public class TopPane extends Group {
 		monthPane = new StackPane();
 		FXCalendarUtility.setBaseColorToNode(monthPane, datePicker.getBaseColor());
 
-		monthPane.setPrefWidth((datePicker.getBounds().getWidth() - 1) / 2);
+		monthPane.setPrefWidth((datePickerPane.getBounds().getWidth() - 1) / 2);
 		monthPane.setPrefHeight(164);
 		monthPane.getStyleClass().add("fx-calendar-top-monthpane");
 
@@ -172,7 +173,7 @@ public class TopPane extends Group {
 		yearPane = new StackPane();
 		FXCalendarUtility.setBaseColorToNode(yearPane, datePicker.getBaseColor());
 
-		yearPane.setPrefWidth(datePicker.getBounds().getWidth() / 2);
+		yearPane.setPrefWidth(datePickerPane.getBounds().getWidth() / 2);
 		yearPane.setPrefHeight(164);
 		yearPane.getStyleClass().add("fx-calendar-top-yearpane");
 
@@ -304,7 +305,7 @@ public class TopPane extends Group {
 		footerPane = new StackPane();
 		FXCalendarUtility.setBaseColorToNode(footerPane, datePicker.getBaseColor());
 
-		footerPane.setPrefWidth(datePicker.getBounds().getWidth());
+		footerPane.setPrefWidth(datePickerPane.getBounds().getWidth());
 		footerPane.setPrefHeight(32);
 		footerPane.getStyleClass().add("fx-calendar-footer");
 
@@ -317,7 +318,7 @@ public class TopPane extends Group {
 			public void handle(ActionEvent event) {
 				datePicker.setSelectedMonth(getMonth());
 				datePicker.setSelectedYear(getYear());
-				datePicker.showBasePane();
+				datePickerPane.showBasePane();
 			}
 		});
 
@@ -328,7 +329,7 @@ public class TopPane extends Group {
 		cancelBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				datePicker.showBasePane();
+				datePickerPane.showBasePane();
 			}
 		});
 

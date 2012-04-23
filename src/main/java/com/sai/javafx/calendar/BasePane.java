@@ -27,7 +27,8 @@ import java.util.List;
 
 public class BasePane extends Group {
 	private DatePicker datePicker;
-	private StackPane navigatorPane;
+    private final DatePickerPane datePickerPane;
+    private StackPane navigatorPane;
 	private StackPane weekPane;
 	private StackPane deskPane;
 	private StackPane footerPane;
@@ -37,10 +38,10 @@ public class BasePane extends Group {
 	public static final String WEEKNUMER_LABEL = "Wk.";
 	private BaseNavigatorArrowButton prevMonthBtn;
 
-	public BasePane(DatePicker datePicker) {
-		super();
+	public BasePane(DatePicker datePicker, DatePickerPane datePickerPane) {
 		this.datePicker = datePicker;
-		configureNavigator();
+        this.datePickerPane = datePickerPane;
+        configureNavigator();
 		configureWeekHeader();
 		configureDesk();
 		configureFooter();
@@ -71,7 +72,7 @@ public class BasePane extends Group {
 		datePicker.selectedYearProperty().addListener(listener);
 
 		FXCalendarUtility.setBaseColorToNode(navigatorPane, datePicker.getBaseColor());
-		navigatorPane.setPrefWidth(datePicker.getBounds().getWidth());
+		navigatorPane.setPrefWidth(datePickerPane.getBounds().getWidth());
 		navigatorPane.setPrefHeight(26);
 		navigatorPane.getStyleClass().add("fx-calendar-navigator");
 
@@ -83,12 +84,12 @@ public class BasePane extends Group {
 		displayLabel.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event arg0) {
-				datePicker.showTopPane();
+				datePickerPane.showTopPane();
 			}
 		});
 
 		/* Calculating the distance for the arrow buttons from the center. */
-		double pos = (datePicker.getBounds().getWidth() / 2) - 12;
+		double pos = (datePickerPane.getBounds().getWidth() / 2) - 12;
 
 		/* Getting the Next Month Button. */
 		BaseNavigatorArrowButton nextMonthBtn = new BaseNavigatorArrowButton(Side.RIGHT, datePicker.getBaseColor());
@@ -132,7 +133,7 @@ public class BasePane extends Group {
 		weekPane = new StackPane();
 
 		FXCalendarUtility.setBaseColorToNode(weekPane, datePicker.getBaseColor());
-		weekPane.setPrefWidth(datePicker.getBounds().getWidth());
+		weekPane.setPrefWidth(datePickerPane.getBounds().getWidth());
 		weekPane.setPrefHeight(18);
 		weekPane.getStyleClass().add("fx-calendar-weekpane");
 
@@ -181,7 +182,7 @@ public class BasePane extends Group {
 
 	private Rectangle2D calculateBounds() {
 		int divFactor = getColCount();
-		double width = datePicker.getBounds().getWidth() / divFactor;
+		double width = datePickerPane.getBounds().getWidth() / divFactor;
 		double height = 18;
 		return new Rectangle2D(0, 0, width, height);
 	}
@@ -197,7 +198,7 @@ public class BasePane extends Group {
 	private void configureDesk() {
 		deskPane = new StackPane();
 		FXCalendarUtility.setBaseColorToNode(deskPane, datePicker.getBaseColor());
-		deskPane.setPrefWidth(datePicker.getBounds().getWidth());
+		deskPane.setPrefWidth(datePickerPane.getBounds().getWidth());
 		deskPane.setPrefHeight(120);
 		deskPane.getStyleClass().add("fx-calendar-desk");
 
@@ -362,7 +363,7 @@ public class BasePane extends Group {
 
 	private Rectangle2D calculateDeskBounds() {
 		int divFactor = getColCount();
-		double width = datePicker.getBounds().getWidth() / divFactor;
+		double width = datePickerPane.getBounds().getWidth() / divFactor;
 		double height = 120 / 6;
 		return new Rectangle2D(0, 0, width, height);
 	}
@@ -377,7 +378,7 @@ public class BasePane extends Group {
 	private void configureFooter() {
 		footerPane = new StackPane();
 		FXCalendarUtility.setBaseColorToNode(footerPane, datePicker.getBaseColor());
-		footerPane.setPrefWidth(datePicker.getBounds().getWidth());
+		footerPane.setPrefWidth(datePickerPane.getBounds().getWidth());
 		footerPane.setPrefHeight(32);
 		footerPane.getStyleClass().add("fx-calendar-footer");
 		NormalButton todayBtn = new NormalButton("Today");
