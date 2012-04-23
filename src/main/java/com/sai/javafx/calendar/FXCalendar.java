@@ -32,9 +32,7 @@ public class FXCalendar extends HBox implements DateSelection {
     private SimpleDoubleProperty dateTextWidth = new SimpleDoubleProperty(74);
     private SimpleObjectProperty<Date> value = new SimpleObjectProperty<>();
     private boolean showWeekNumber;
-    private FXCalendarUtility fxCalendarUtility;
     private DateTextField dateTxtField;
-    private ChangeListener<Boolean> focusOutListener;
     private Popup popup;
     private DatePicker datePicker;
     private final SimpleObjectProperty<Locale> locale = new SimpleObjectProperty<>();
@@ -53,8 +51,6 @@ public class FXCalendar extends HBox implements DateSelection {
 
     private void configureCalendar() {
         final DateFormatValidator dateFormatValidator = new DateFormatValidator();
-        fxCalendarUtility = new FXCalendarUtility();
-
         popup = new Popup();
         popup.setAutoHide(true);
         popup.setAutoFix(true);
@@ -93,7 +89,7 @@ public class FXCalendar extends HBox implements DateSelection {
     private void createDateTextField(final DateFormatValidator dateFormatValidator) {
         dateTxtField = new DateTextField();
         dateTxtField.prefWidthProperty().bind(dateTextWidth);
-        this.focusOutListener = new ChangeListener<Boolean>() {
+        ChangeListener<Boolean> focusOutListener = new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
                 // Handling only when focus is out.
@@ -103,7 +99,7 @@ public class FXCalendar extends HBox implements DateSelection {
                         clear(); // TODO : Error styling for invalid date format.
                         dateTxtField.setText(value);
                     } else {
-                        Date date = fxCalendarUtility.convertStringtoDate(value);
+                        Date date = FXCalendarUtility.convertStringtoDate(value);
                         if (date != null) {
                             setValue(date);
                         } else {
@@ -115,7 +111,7 @@ public class FXCalendar extends HBox implements DateSelection {
                 }
             }
         };
-        dateTxtField.focusedProperty().addListener(this.focusOutListener);
+        dateTxtField.focusedProperty().addListener(focusOutListener);
     }
 
     private void configureListeners() {
@@ -166,16 +162,13 @@ public class FXCalendar extends HBox implements DateSelection {
         int month = selectedMonthProperty().get();
         int year = selectedYearProperty().get();
         if (date != 0 && month != -1 && year != 0) {
-            dateTxtField.setText(this.fxCalendarUtility.getFormattedDate(date, month, year));
+            dateTxtField.setText(FXCalendarUtility.getFormattedDate(date, month, year));
         } else {
             dateTxtField.setText("");
         }
     }
 
     public void refreshLocale(Locale locale) {
-        fxCalendarUtility.resetShortestWeekDays(locale);
-        fxCalendarUtility.resetShortMonths(locale);
-        fxCalendarUtility.resetMonths(locale);
         datePickerPane.getBasePane().setLabelText();
         datePickerPane.getBasePane().setWeekLabels();
         datePickerPane.getTopPane().setTopMonths();
@@ -356,16 +349,8 @@ public class FXCalendar extends HBox implements DateSelection {
         return value;
     }
 
-    public FXCalendarUtility getFXCalendarUtility() {
-        return fxCalendarUtility;
-    }
-
     public TextField getTextField() {
         return dateTxtField;
-    }
-
-    public ChangeListener<Boolean> getFocusOutListener() {
-        return this.focusOutListener;
     }
 
     @Override

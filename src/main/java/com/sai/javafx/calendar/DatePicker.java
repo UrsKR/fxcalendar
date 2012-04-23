@@ -77,7 +77,7 @@ public class DatePicker implements DateSelection {
     }
 
     private int getIndexOfLastMonth() {
-        return properties.getFXCalendarUtility().getMonths(properties.getLocale()).length - 2;
+        return FXCalendarUtility.getMonths(properties.getLocale()).length - 2;
     }
 
     private void increaseMonth(int currentMonth) {

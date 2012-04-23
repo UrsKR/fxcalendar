@@ -110,7 +110,7 @@ public class TopPane extends Group {
 	}
 
 	private void generateMonthButtons() {
-		String[] months = properties.getFXCalendarUtility().getShortMonths(properties.getLocale());
+		String[] months = FXCalendarUtility.getShortMonths(properties.getLocale());
 		int evenValue = 0;
 		int oddValue = 6;
 
@@ -138,7 +138,7 @@ public class TopPane extends Group {
 	}
 
 	public void setTopMonths() {
-		String[] months = properties.getFXCalendarUtility().getShortMonths(properties.getLocale());
+		String[] months = FXCalendarUtility.getShortMonths(properties.getLocale());
 		int evenValue = 0;
 		int oddValue = 6;
 		for (int i = 0; i < 12; i++) {

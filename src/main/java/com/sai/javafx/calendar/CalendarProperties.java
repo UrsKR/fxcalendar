@@ -17,10 +17,6 @@ public class CalendarProperties {
         return calendar.getBaseColor();
     }
 
-    public FXCalendarUtility getFXCalendarUtility() {
-        return calendar.getFXCalendarUtility();
-    }
-
     public Locale getLocale() {
         return calendar.getLocale();
     }

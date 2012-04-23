@@ -120,7 +120,7 @@ public class BasePane extends Group {
     }
 
     public void setLabelText() {
-        displayLabel.setText(properties.getFXCalendarUtility().getMonths(properties.getLocale())[this.datePicker.getSelectedMonth()] + " "
+        displayLabel.setText(FXCalendarUtility.getMonths(properties.getLocale())[this.datePicker.getSelectedMonth()] + " "
                 + this.datePicker.getSelectedYear());
     }
 
@@ -164,7 +164,7 @@ public class BasePane extends Group {
             wkCells.add(cell);
         }
 
-        String[] wks = properties.getFXCalendarUtility().getShortestWeekDays(properties.getLocale());
+        String[] wks = FXCalendarUtility.getShortestWeekDays(properties.getLocale());
         for (int i = 1; i < wks.length; i++) {
             cell = new WeekCell("week_" + wks[i], wks[i], cellBounds.getWidth(), cellBounds.getHeight());
             FXCalendarUtility.setBaseColorToNode(cell.getTxt(), properties.getBaseColor());
@@ -174,7 +174,7 @@ public class BasePane extends Group {
     }
 
     public void setWeekLabels() {
-        String[] wks = properties.getFXCalendarUtility().getShortestWeekDays(properties.getLocale());
+        String[] wks = FXCalendarUtility.getShortestWeekDays(properties.getLocale());
         int pos = properties.getShowWeekNumber() ? 1 : 0;
         for (int i = 1; i < wks.length; i++) {
             weekCellList.get(pos).setContent(wks[i]);
