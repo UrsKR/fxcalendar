@@ -73,8 +73,8 @@ public class FXCalendarDemo extends Application {
 	    loadStyleSheet(scene);
 	}
 
-	private final void loadStyleSheet(Scene scene){
-        URL resource = FXCalendarDemo.class.getResource("/css/style.css");
+	private void loadStyleSheet(Scene scene){
+        URL resource = FXCalendarDemo.class.getResource("/css/calendar_style.css");
         String urlString = resource.toExternalForm();
         System.out.println(urlString);
         scene.getStylesheets().add(urlString);
@@ -186,7 +186,7 @@ public class FXCalendarDemo extends Application {
 		final FXCalendar calendar = new FXCalendar();
 		calendar.setLocale(Locale.ENGLISH);
 		
-		ObservableList<String> list = FXCollections.observableArrayList("English", "French", "Dutch");
+		ObservableList<String> list = FXCollections.observableArrayList("English", "French", "German");
 		final ChoiceBox<String> cb = new ChoiceBox<String>( list);
 		cb.getSelectionModel().select(0);
 		cb.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
@@ -197,7 +197,7 @@ public class FXCalendarDemo extends Application {
 				}else if(arg2.intValue()==1){
 					calendar.setLocale(Locale.FRENCH);
 				}else {
-					calendar.setLocale(new Locale("nl","BE"));
+					calendar.setLocale(Locale.GERMAN);
 				}
 			}
 		});
@@ -238,20 +238,6 @@ public class FXCalendarDemo extends Application {
 		center.getChildren().add(vb);
 	}
 	
-}
-
-class FeatureHeader extends Label{
-	public FeatureHeader(String str){
-		super(str);
-		setStyle("-fx-font-weight :bold;-fx-font-size: 16px;-fx-font-family: verdana,arial,helvetica,tahoma,sans-serif;");
-	}
-}
-
-class FeatureLabel extends Label{
-	public FeatureLabel(String str){
-		super(str);
-		setStyle("-fx-font-size: 12px;-fx-font-family: verdana,arial,helvetica,tahoma,sans-serif;");
-	}
 }
 
 

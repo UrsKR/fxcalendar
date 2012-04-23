@@ -1,5 +1,8 @@
 package com.sai.javafx.calendar;
 
+import com.sai.javafx.calendar.controls.CalendarToggleButton;
+import com.sai.javafx.calendar.controls.NormalButton;
+import com.sai.javafx.calendar.controls.YearNavigatorArrowButton;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -12,10 +15,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
-
-import com.sai.javafx.calendar.FXCalendarControls.CalendarToggleButton;
-import com.sai.javafx.calendar.FXCalendarControls.NormalButton;
-import com.sai.javafx.calendar.FXCalendarControls.YearNavigatorArrowButton;
 
 public class TopPane extends Group {
 	private DatePicker datePicker;
@@ -122,7 +121,7 @@ public class TopPane extends Group {
 				oddValue++;
 			}
 
-			final CalendarToggleButton btn = new FXCalendarControls().new CalendarToggleButton(months[pos], pos);
+			final CalendarToggleButton btn = new CalendarToggleButton(months[pos], pos);
 			btn.setBaseColor(datePicker.getBaseColor());
 			btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@Override
@@ -183,8 +182,8 @@ public class TopPane extends Group {
 		tilePane.setVgap(8);
 		tilePane.setTranslateX(5);
 
-		prevBtn = new FXCalendarControls().new YearNavigatorArrowButton(Side.LEFT, datePicker.getBaseColor());
-		YearNavigatorArrowButton nextBtn = new FXCalendarControls().new YearNavigatorArrowButton(Side.RIGHT, datePicker.getBaseColor());
+		prevBtn = new YearNavigatorArrowButton(Side.LEFT, datePicker.getBaseColor());
+		YearNavigatorArrowButton nextBtn = new YearNavigatorArrowButton(Side.RIGHT, datePicker.getBaseColor());
 
 		prevBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
@@ -232,7 +231,7 @@ public class TopPane extends Group {
 				oddValue++;
 			}
 
-			final CalendarToggleButton btn = new FXCalendarControls().new CalendarToggleButton(arr[pos] + "", new Integer(arr[pos]));
+			final CalendarToggleButton btn = new CalendarToggleButton(arr[pos] + "", new Integer(arr[pos]));
 			btn.setBaseColor(datePicker.getBaseColor());
 			btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@Override
@@ -309,7 +308,7 @@ public class TopPane extends Group {
 		footerPane.setPrefHeight(32);
 		footerPane.getStyleClass().add("fx-calendar-footer");
 
-		NormalButton todayBtn = new FXCalendarControls().new NormalButton("Ok");
+		NormalButton todayBtn = new NormalButton("Ok");
 		/**
 		 * Event triggering to set the current date of the system.
 		 */
@@ -322,7 +321,7 @@ public class TopPane extends Group {
 			}
 		});
 
-		NormalButton cancelBtn = new FXCalendarControls().new NormalButton("Cancel");
+		NormalButton cancelBtn = new NormalButton("Cancel");
 		/**
 		 * Event triggering to set the current date of the system.
 		 */

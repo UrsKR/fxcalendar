@@ -1,9 +1,8 @@
 package com.sai.javafx.calendar;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
+import com.sai.javafx.calendar.controls.Arrow;
+import com.sai.javafx.calendar.controls.BaseNavigatorArrowButton;
+import com.sai.javafx.calendar.controls.NormalButton;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -20,6 +19,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
 public class BasePane extends Group {
 	private DatePicker datePicker;
 	private StackPane navigatorPane;
@@ -30,7 +33,7 @@ public class BasePane extends Group {
 	private ObservableList<FXCalendarCell.WeekCell> weekCellList = FXCollections.observableArrayList();
 	private ObservableList<FXCalendarCell.DateCell> dateCellList = FXCollections.observableArrayList();
 	public static final String WEEKNUMER_LABEL = "Wk.";
-	private FXCalendarControls.BaseNavigatorArrowButton prevMonthBtn;
+	private BaseNavigatorArrowButton prevMonthBtn;
 
 	public BasePane(DatePicker datePicker) {
 		super();
@@ -73,7 +76,7 @@ public class BasePane extends Group {
 		/* Displaying the Month & Year of the selected date. */
 		displayLabel = new Label();
 		displayLabel.getStyleClass().add("fx-calendar-navigator-label");
-		displayLabel.setGraphic(new FXCalendarControls().new Arrow());
+		displayLabel.setGraphic(new Arrow());
 		setLabelText();
 		displayLabel.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
@@ -86,7 +89,7 @@ public class BasePane extends Group {
 		double pos = (datePicker.getBounds().getWidth() / 2) - 12;
 
 		/* Getting the Next Month Button. */
-		FXCalendarControls.BaseNavigatorArrowButton nextMonthBtn = new FXCalendarControls().new BaseNavigatorArrowButton(Side.RIGHT, datePicker.getBaseColor());
+		BaseNavigatorArrowButton nextMonthBtn = new BaseNavigatorArrowButton(Side.RIGHT, datePicker.getBaseColor());
 		nextMonthBtn.setTranslateX(pos);
 		nextMonthBtn.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
@@ -96,7 +99,7 @@ public class BasePane extends Group {
 		});
 
 		/* Getting the Previous Month Button. */
-		prevMonthBtn = new FXCalendarControls().new BaseNavigatorArrowButton(Side.LEFT, datePicker.getBaseColor());
+		prevMonthBtn = new BaseNavigatorArrowButton(Side.LEFT, datePicker.getBaseColor());
 		prevMonthBtn.setTranslateX(-pos);
 		prevMonthBtn.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
@@ -375,7 +378,7 @@ public class BasePane extends Group {
 		footerPane.setPrefWidth(datePicker.getBounds().getWidth());
 		footerPane.setPrefHeight(32);
 		footerPane.getStyleClass().add("fx-calendar-footer");
-		FXCalendarControls.NormalButton todayBtn = new FXCalendarControls().new NormalButton("Today");
+		NormalButton todayBtn = new NormalButton("Today");
 
 		/**
 		 * Event triggering to set the current date of the system.
