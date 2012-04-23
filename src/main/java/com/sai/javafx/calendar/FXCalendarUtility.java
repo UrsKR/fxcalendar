@@ -30,7 +30,7 @@ public class FXCalendarUtility {
         return Calendar.getInstance();
     }
 
-    public static Calendar getCurrentDateCalendar() {
+    public static Calendar getCalendarSetToToday() {
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
         return c;

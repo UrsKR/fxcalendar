@@ -285,11 +285,12 @@ public class BasePane extends Group {
 		}
 		
 		Calendar dummyDate = (Calendar) paneFirstDate.clone();
-		Calendar systemDate = FXCalendarUtility.getCurrentDateCalendar();
+		Calendar systemDate = FXCalendarUtility.getCalendarSetToToday();
 
-		int fxDate = properties.getFxCalendar().getSelectedDate();
-		int fxMonth = properties.getFxCalendar().getSelectedMonth();
-		int fxYear = properties.getFxCalendar().getSelectedYear();
+        FXCalendar fxCalendar = properties.getFxCalendar();
+        int fxDate = fxCalendar.getSelectedDate();
+		int fxMonth = fxCalendar.getSelectedMonth();
+		int fxYear = fxCalendar.getSelectedYear();
 
 		for (final DateCell dateCell : dateCellList) {
 			if (!dateCell.isWeekNumCell()) {
@@ -340,14 +341,15 @@ public class BasePane extends Group {
 						datePicker.setSelectedMonth(month);
 						datePicker.setSelectedDate(date);
 
-						properties.getFxCalendar().setSelectedDate(date);
-						properties.getFxCalendar().setSelectedMonth(month);
-						properties.getFxCalendar().setSelectedYear(year);
-						properties.getFxCalendar().setTriggered(true);
+                        FXCalendar fxCalendar = properties.getFxCalendar();
+                        fxCalendar.setSelectedDate(date);
+						fxCalendar.setSelectedMonth(month);
+						fxCalendar.setSelectedYear(year);
+						fxCalendar.setTriggered(true);
 
-						properties.getFxCalendar().getTextField().requestFocus();
-						properties.getFxCalendar().showDateInTextField();
-						properties.getFxCalendar().hidePopup();
+						fxCalendar.getTextField().requestFocus();
+						fxCalendar.showDateInTextField();
+						fxCalendar.hidePopup();
 					}
 				});
 
@@ -383,23 +385,20 @@ public class BasePane extends Group {
 		footerPane.setPrefWidth(datePickerPane.getBounds().getWidth());
 		footerPane.setPrefHeight(32);
 		footerPane.getStyleClass().add("fx-calendar-footer");
-		NormalButton todayBtn = new NormalButton("Today");
+		NormalButton todayButton = new NormalButton("Today");
+		todayButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Calendar today = FXCalendarUtility.getCalendarSetToToday();
+                FXCalendar fxCalendar = properties.getFxCalendar();
+                fxCalendar.setSelectedDate(today.get(Calendar.DAY_OF_MONTH));
+                fxCalendar.setSelectedMonth(today.get(Calendar.MONTH));
+                fxCalendar.setSelectedYear(today.get(Calendar.YEAR));
+                fxCalendar.hidePopup();
+            }
+        });
 
-		/**
-		 * Event triggering to set the current date of the system.
-		 */
-		todayBtn.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				Calendar today = FXCalendarUtility.getCurrentDateCalendar();
-				properties.getFxCalendar().setSelectedDate(today.get(Calendar.DAY_OF_MONTH));
-				properties.getFxCalendar().setSelectedMonth(today.get(Calendar.MONTH));
-				properties.getFxCalendar().setSelectedYear(today.get(Calendar.YEAR));
-				properties.getFxCalendar().hidePopup();
-			}
-		});
-
-		footerPane.getChildren().add(todayBtn);
+		footerPane.getChildren().add(todayButton);
 		footerPane.setTranslateY(navigatorPane.getPrefHeight() + weekPane.getPrefHeight() + deskPane.getPrefHeight());
 		getChildren().add(footerPane);
 	}

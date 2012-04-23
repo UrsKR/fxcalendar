@@ -123,17 +123,17 @@ public class FXCalendar extends HBox {
     private void configureListeners() {
 
         /* Adding listeners when the date cell is selected. */
-        triggeredProperty().addListener(new ChangeListener<Boolean>() {
+        triggered.addListener(new ChangeListener<Boolean>() {
             @Override
-            public void changed(ObservableValue<? extends Boolean> paramObservableValue, Boolean paramT1, Boolean paramT2) {
-                if (paramT2) {
-                    FXCalendarUtility cu = new FXCalendarUtility();
-                    final Integer day = selectedDateProperty().get();
-                    final Integer month = selectedMonthProperty().get();
-                    final Integer year = selectedYearProperty().get();
+            public void changed(ObservableValue<? extends Boolean> paramObservableValue, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    FXCalendarUtility utility = new FXCalendarUtility();
+                    Integer day = selectedDateProperty().get();
+                    Integer month = selectedMonthProperty().get();
+                    Integer year = selectedYearProperty().get();
                     if (day != 0 && month > -1 && year != 0) {
-                        String d = cu.getFormattedDate(day, month, year);
-                        valueProperty().set(cu.convertStringtoDate(d));
+                        String date = utility.getFormattedDate(day, month, year);
+                        valueProperty().set(utility.convertStringtoDate(date));
                     }
                     setTriggered(false);
                 }
@@ -209,7 +209,7 @@ public class FXCalendar extends HBox {
         if (datePicker == null) {
             CalendarProperties properties = new CalendarProperties(FXCalendar.this);
             Date intialDate = getValue();
-            if (intialDate == null){
+            if (intialDate == null) {
                 intialDate = new Date();
             }
             datePicker = new DatePicker(intialDate, properties);
@@ -219,7 +219,7 @@ public class FXCalendar extends HBox {
 
         // If there is no date selected, then setting the system date.
         if (FXCalendar.this.getSelectedYear() == 0) {
-            Calendar currentDate = FXCalendarUtility.getCurrentDateCalendar();
+            Calendar currentDate = FXCalendarUtility.getCalendarSetToToday();
             datePicker.selectedDateProperty().set(currentDate.get(Calendar.DAY_OF_MONTH));
             datePicker.selectedMonthProperty().set(currentDate.get(Calendar.MONTH));
             datePicker.selectedYearProperty().set(currentDate.get(Calendar.YEAR));
@@ -392,10 +392,6 @@ public class FXCalendar extends HBox {
 
     public void setTriggered(Boolean triggered) {
         this.triggered.set(triggered);
-    }
-
-    public SimpleBooleanProperty triggeredProperty() {
-        return triggered;
     }
 
     public TextField getTextField() {
