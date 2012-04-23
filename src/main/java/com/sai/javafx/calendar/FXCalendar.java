@@ -30,16 +30,16 @@ public class FXCalendar extends HBox {
 	private SimpleIntegerProperty selectedMonth = new SimpleIntegerProperty();
 	private SimpleIntegerProperty selectedYear = new SimpleIntegerProperty();
 	private SimpleBooleanProperty triggered = new SimpleBooleanProperty();
-	private final SimpleObjectProperty<Color> baseColor = new SimpleObjectProperty<Color>();
+	private final SimpleObjectProperty<Color> baseColor = new SimpleObjectProperty<>();
 	private SimpleDoubleProperty dateTextWidth = new SimpleDoubleProperty(74);
-	private SimpleObjectProperty<Date> value = new SimpleObjectProperty<Date>();
+	private SimpleObjectProperty<Date> value = new SimpleObjectProperty<>();
 	private boolean showWeekNumber;
 	private FXCalendarUtility fxCalendarUtility;
 	private DateTextField dateTxtField;
 	private ChangeListener<Boolean> focusOutListener;
 	private Popup popup;
 	private DatePicker datePicker;
-	private final SimpleObjectProperty<Locale> locale = new SimpleObjectProperty<Locale>();
+	private final SimpleObjectProperty<Locale> locale = new SimpleObjectProperty<>();
     private final String DEFAULT_STYLE_CLASS = "fx-calendar";
     private DatePickerPane datePickerPane;
 
@@ -48,7 +48,6 @@ public class FXCalendar extends HBox {
 		super.getStyleClass().add(DEFAULT_STYLE_CLASS);
 		this.locale.set(Locale.ENGLISH);
 		this.baseColor.set(Color.web("#313131"));
-		//setSpacing(6);
 		setAlignment(Pos.CENTER);
 		configureCalendar();
 		configureListeners();
@@ -73,51 +72,55 @@ public class FXCalendar extends HBox {
                 }
             }
         });
-
-		/* Creating the date text field. */
-		dateTxtField = new DateTextField();
-		dateTxtField.prefWidthProperty().bind(dateTextWidth);
-		this.focusOutListener = new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-				// Handling only when focus is out.
-				if (!arg2) {
-					String value = dateTxtField.getText();
-					if(!dateFormatValidator.isValid(value)){
-						clear(); // TODO : Error styling for invalid date format.
-						dateTxtField.setText(value);
-					}else{
-						Date date = fxCalendarUtility.convertStringtoDate(value);
-						if (date != null) {
-							setValue(date);
-						} else {
-							// TODO : Error styling the text field for invalid date
-							// entry.
-							clear();
-						}
-					}
-				}
-			}
-		};
-		dateTxtField.focusedProperty().addListener(this.focusOutListener);
-
-		/* Creating the date button. */
-		Button popupButton = new Button();
-		popupButton.getStyleClass().add("dateButton");
-		popupButton.setGraphic(FXCalendarUtility.getDateImage());
-		popupButton.setFocusTraversable(false);
-		popupButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent paramT) {
-				initiatePopUp();
-				showPopup();
-			}
-		});
-
+        createDateTextField(dateFormatValidator);
+        Button popupButton = createPopUpButton();
 		getChildren().addAll(dateTxtField, popupButton);
 	}
 
-	private void configureListeners() {
+    private Button createPopUpButton() {
+        Button popupButton = new Button();
+        popupButton.getStyleClass().add("dateButton");
+        popupButton.setGraphic(FXCalendarUtility.getDateImage());
+        popupButton.setFocusTraversable(false);
+        popupButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent paramT) {
+                initiatePopUp();
+                showPopup();
+            }
+        });
+        return popupButton;
+    }
+
+    private void createDateTextField(final DateFormatValidator dateFormatValidator) {
+        dateTxtField = new DateTextField();
+        dateTxtField.prefWidthProperty().bind(dateTextWidth);
+        this.focusOutListener = new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+                // Handling only when focus is out.
+                if (!arg2) {
+                    String value = dateTxtField.getText();
+                    if(!dateFormatValidator.isValid(value)){
+                        clear(); // TODO : Error styling for invalid date format.
+                        dateTxtField.setText(value);
+                    }else{
+                        Date date = fxCalendarUtility.convertStringtoDate(value);
+                        if (date != null) {
+                            setValue(date);
+                        } else {
+                            // TODO : Error styling the text field for invalid date
+                            // entry.
+                            clear();
+                        }
+                    }
+                }
+            }
+        };
+        dateTxtField.focusedProperty().addListener(this.focusOutListener);
+    }
+
+    private void configureListeners() {
 
 		/* Adding listeners when the date cell is selected. */
 		triggeredProperty().addListener(new ChangeListener<Boolean>() {
