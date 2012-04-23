@@ -397,10 +397,8 @@ public class BasePane extends Group {
                 fxCalendar.hidePopup();
             }
         });
-
 		footerPane.getChildren().add(todayButton);
 		footerPane.setTranslateY(navigatorPane.getPrefHeight() + weekPane.getPrefHeight() + deskPane.getPrefHeight());
 		getChildren().add(footerPane);
 	}
 }
-

@@ -216,20 +216,6 @@ public class FXCalendar extends HBox {
             datePickerPane = new DatePickerPane(datePicker, properties);
             popup.getContent().add(datePickerPane);
         }
-
-        // If there is no date selected, then setting the system date.
-        if (FXCalendar.this.getSelectedYear() == 0) {
-            Calendar currentDate = FXCalendarUtility.getCalendarSetToToday();
-            datePicker.selectedDateProperty().set(currentDate.get(Calendar.DAY_OF_MONTH));
-            datePicker.selectedMonthProperty().set(currentDate.get(Calendar.MONTH));
-            datePicker.selectedYearProperty().set(currentDate.get(Calendar.YEAR));
-        } else {
-            // Copying the date from calendar to date picker.
-            datePicker.selectedDateProperty().set(selectedDateProperty().get());
-            datePicker.selectedMonthProperty().set(selectedMonthProperty().get());
-            datePicker.selectedYearProperty().set(selectedYearProperty().get());
-        }
-
         datePickerPane.getBasePane().generateDates();
         datePickerPane.showBasePane();
     }
