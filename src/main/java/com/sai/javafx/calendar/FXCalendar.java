@@ -34,9 +34,14 @@ public class FXCalendar extends HBox implements DateSelection {
     private DatePicker datePicker;
     private final String DEFAULT_STYLE_CLASS = "fx-calendar";
     private DatePickerPane datePickerPane;
-    private CalendarProperties properties = new CalendarProperties();
+    private CalendarProperties properties;
 
     public FXCalendar() {
+        this(new CalendarProperties());
+    }
+
+    public FXCalendar(CalendarProperties properties) {
+        this.properties = properties;
         super.getStyleClass().add(DEFAULT_STYLE_CLASS);
         setAlignment(Pos.CENTER);
         configureCalendar();
@@ -303,9 +308,5 @@ public class FXCalendar extends HBox implements DateSelection {
         getTextField().requestFocus();
         showDateInTextField();
         hidePopup();
-    }
-
-    public CalendarProperties getCalendarProperties() {
-        return properties;
     }
 }

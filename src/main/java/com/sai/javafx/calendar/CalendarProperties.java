@@ -13,7 +13,7 @@ public class CalendarProperties {
 
     public CalendarProperties() {
         setLocale(Locale.ENGLISH);
-        this.baseColor.set(Color.web("#313131"));
+        setBaseColor(Color.web("#313131"));
     }
 
     public Locale getLocale() {

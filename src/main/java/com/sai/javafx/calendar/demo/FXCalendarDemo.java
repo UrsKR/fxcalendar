@@ -1,5 +1,6 @@
 package com.sai.javafx.calendar.demo;
 
+import com.sai.javafx.calendar.CalendarProperties;
 import com.sai.javafx.calendar.FXCalendar;
 import com.sai.javafx.calendar.FXCalendarUtility;
 import javafx.application.Application;
@@ -166,8 +167,9 @@ public class FXCalendarDemo extends Application {
         vb.setSpacing(10);
         FeatureHeader header = new FeatureHeader("#" + i + " : Calendar Control with Week Number display");
         FeatureLabel lbl = new FeatureLabel("Select the date : ");
-        FXCalendar calendar = new FXCalendar();
-        calendar.getCalendarProperties().setShowWeekNumber(true);
+        CalendarProperties properties = new CalendarProperties();
+        properties.setShowWeekNumber(true);
+        FXCalendar calendar = new FXCalendar(properties);
 
         HBox hb = new HBox();
         hb.setSpacing(10);
@@ -183,8 +185,8 @@ public class FXCalendarDemo extends Application {
         FeatureHeader header = new FeatureHeader("#" + i + " : Calendar Control with Locale specific");
         FeatureLabel lbl1 = new FeatureLabel("Select the language : ");
         FeatureLabel lbl2 = new FeatureLabel("Select the date : ");
-        final FXCalendar calendar = new FXCalendar();
-        calendar.getCalendarProperties().setLocale(Locale.ENGLISH);
+        final CalendarProperties properties = new CalendarProperties();
+        final FXCalendar calendar = new FXCalendar(properties);
 
         ObservableList<String> list = FXCollections.observableArrayList("English", "French", "German");
         final ChoiceBox<String> cb = new ChoiceBox<String>(list);
@@ -193,11 +195,11 @@ public class FXCalendarDemo extends Application {
             @Override
             public void changed(ObservableValue arg0, Number arg1, Number arg2) {
                 if (arg2.intValue() == 0) {
-                    calendar.getCalendarProperties().setLocale(Locale.ENGLISH);
+                    properties.setLocale(Locale.ENGLISH);
                 } else if (arg2.intValue() == 1) {
-                    calendar.getCalendarProperties().setLocale(Locale.FRENCH);
+                    properties.setLocale(Locale.FRENCH);
                 } else {
-                    calendar.getCalendarProperties().setLocale(Locale.GERMAN);
+                    properties.setLocale(Locale.GERMAN);
                 }
             }
         });
@@ -219,16 +221,18 @@ public class FXCalendarDemo extends Application {
         FeatureHeader header = new FeatureHeader("#" + i + " : Calendar Control with different Themes");
 
         FeatureLabel lbl1 = new FeatureLabel("Select the language ( Red Theme ): ");
-        final FXCalendar calendar1 = new FXCalendar();
-        calendar1.getCalendarProperties().setBaseColor(Color.web("#940C02"));
+        CalendarProperties properties = new CalendarProperties();
+        properties.setBaseColor(Color.web("#940C02"));
+        final FXCalendar calendar1 = new FXCalendar(properties);
 
         HBox hb = new HBox();
         hb.setSpacing(10);
         hb.getChildren().addAll(lbl1, calendar1);
 
         FeatureLabel lbl2 = new FeatureLabel("Select the date ( Black Theme ) : ");
-        final FXCalendar calendar2 = new FXCalendar();
-        calendar2.getCalendarProperties().setBaseColor(Color.BLACK);
+        CalendarProperties properties2 = new CalendarProperties();
+        properties2.setBaseColor(Color.BLACK);
+        final FXCalendar calendar2 = new FXCalendar(properties2);
 
         HBox hb1 = new HBox();
         hb1.setSpacing(10);
