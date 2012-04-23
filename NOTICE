@@ -1,0 +1,2 @@
+This is a heavily modified fork of http://code.google.com/p/javafx-calendar/.
+Main goal was to make it compatible with German date format and to make it adhere to the MIG layout manager.
