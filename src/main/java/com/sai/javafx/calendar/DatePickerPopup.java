@@ -26,7 +26,7 @@ public class DatePickerPopup {
         popup.setHideOnEscape(true);
     }
 
-    public void initiateAndShow() {
+    public void show() {
         initiatePopUp();
         showPopup();
     }
@@ -35,8 +35,13 @@ public class DatePickerPopup {
         this.initialDate = date;
     }
 
-    public void hidePopup() {
+    public void hide() {
         popup.hide();
+    }
+
+    @SuppressWarnings({"UnusedDeclaration"})
+    public boolean isVisible() {
+        return popup.isShowing();
     }
 
     private void initiatePopUp() {

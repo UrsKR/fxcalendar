@@ -51,9 +51,9 @@ public class FXCalendar extends HBox implements DateSelection {
             public void handle(KeyEvent event) {
                 if (KeyCode.UP.equals(event.getCode()) || KeyCode.DOWN.equals(event.getCode()) || KeyCode.ENTER.equals(event.getCode())) {
                     pickerPopup.setInitialDate(getInitialDateForPicker());
-                    pickerPopup.initiateAndShow();
+                    pickerPopup.show();
                 } else if (KeyCode.TAB.equals(event.getCode())) {
-                    pickerPopup.hidePopup();
+                    pickerPopup.hide();
                 }
             }
         });
@@ -71,7 +71,7 @@ public class FXCalendar extends HBox implements DateSelection {
             @Override
             public void handle(ActionEvent paramT) {
                 pickerPopup.setInitialDate(getInitialDateForPicker());
-                pickerPopup.initiateAndShow();
+                pickerPopup.show();
             }
         });
         return popupButton;
@@ -249,6 +249,6 @@ public class FXCalendar extends HBox implements DateSelection {
         setValue(time);
         getTextField().requestFocus();
         showDateInTextField();
-        pickerPopup.hidePopup();
+        pickerPopup.hide();
     }
 }
