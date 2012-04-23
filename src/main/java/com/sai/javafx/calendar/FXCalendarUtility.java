@@ -26,10 +26,6 @@ public class FXCalendarUtility {
     private String[] MONTHS;              // {"January","February","March","April","May","June","July","August","September","October","November","December",""}
     private static final Logger LOG = Logger.getLogger(FXCalendarUtility.class.getCanonicalName());
 
-    public static Calendar getCalendar() {
-        return Calendar.getInstance();
-    }
-
     public static Calendar getCalendarSetToToday() {
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
@@ -75,11 +71,11 @@ public class FXCalendarUtility {
         return null;
     }
 
-
     public void resetShortestWeekDays(Locale locale) {
         SHORTEST_WEEK_DAYS = null;
         getShortestWeekDays(locale);
     }
+
 
     public String[] getShortestWeekDays(Locale locale) {
         if (SHORTEST_WEEK_DAYS == null || SHORTEST_WEEK_DAYS.length == 0) {
@@ -144,10 +140,10 @@ public class FXCalendarUtility {
         }
     }
 
-
     public static void setBaseColorToNode(Node node, Color baseColor) {
         node.setStyle("-fx-base:" + rgbToHex(baseColor) + ";");
     }
+
 
     public static String rgbToHex(Color color) {
         int i = (int) Math.round(color.getRed() * 255D);
@@ -203,6 +199,10 @@ public class FXCalendarUtility {
         l.setTranslateX(translateX);
         l.setTranslateY(translateY);
         return l;
+    }
+
+    private static Calendar getCalendar() {
+        return Calendar.getInstance();
     }
 
 }

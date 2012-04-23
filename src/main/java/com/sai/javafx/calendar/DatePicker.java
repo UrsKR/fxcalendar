@@ -5,24 +5,24 @@ import javafx.beans.property.SimpleIntegerProperty;
 import java.util.Calendar;
 import java.util.Date;
 
-public class DatePicker {
+public class DatePicker implements DateSelection {
 
     private SimpleIntegerProperty selectedDate = new SimpleIntegerProperty();
     private SimpleIntegerProperty selectedMonth = new SimpleIntegerProperty();
     private SimpleIntegerProperty selectedYear = new SimpleIntegerProperty();
     private final CalendarProperties properties;
+    private final DateSelection selection;
 
-    public DatePicker(Date initialDate, CalendarProperties properties) {
+    public DatePicker(Date initialDate, CalendarProperties properties, DateSelection selection) {
         this.properties = properties;
-        Calendar calendar = FXCalendarUtility.getDateCalendar(initialDate);
-        selectedDate.set(calendar.get(Calendar.DAY_OF_MONTH));
-        selectedMonth.set(calendar.get(Calendar.MONTH));
-        selectedYear.set(calendar.get(Calendar.YEAR));
+        this.selection = selection;
+        setTo(initialDate);
     }
 
-    public int getSelectedDate(){
+    public int getSelectedDate() {
         return selectedDate.get();
     }
+
 
     public int getSelectedMonth() {
         return selectedMonth.get();
@@ -94,5 +94,18 @@ public class DatePicker {
 
     private void decreaseYear() {
         selectedYear.set(selectedYear.get() - 1);
+    }
+
+    @Override
+    public void select(Date time) {
+        setTo(time);
+        selection.select(time);
+    }
+
+    private void setTo(Date date) {
+        Calendar calendar = FXCalendarUtility.getDateCalendar(date);
+        selectedDate.set(calendar.get(Calendar.DAY_OF_MONTH));
+        selectedMonth.set(calendar.get(Calendar.MONTH));
+        selectedYear.set(calendar.get(Calendar.YEAR));
     }
 }

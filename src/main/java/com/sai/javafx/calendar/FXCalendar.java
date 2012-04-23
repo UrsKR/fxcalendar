@@ -23,7 +23,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class FXCalendar extends HBox {
+public class FXCalendar extends HBox implements DateSelection {
 
     private SimpleIntegerProperty selectedDate = new SimpleIntegerProperty();
     private SimpleIntegerProperty selectedMonth = new SimpleIntegerProperty();
@@ -188,7 +188,7 @@ public class FXCalendar extends HBox {
         if (datePicker == null) {
             CalendarProperties properties = new CalendarProperties(FXCalendar.this);
             Date intialDate = getInitialDateForPicker();
-            datePicker = new DatePicker(intialDate, properties);
+            datePicker = new DatePicker(intialDate, properties, this);
             datePickerPane = new DatePickerPane(datePicker, properties);
             popup.getContent().add(datePickerPane);
         }
@@ -368,7 +368,8 @@ public class FXCalendar extends HBox {
         return this.focusOutListener;
     }
 
-    void select(Date time) {
+    @Override
+    public void select(Date time) {
         setValue(time);
         getTextField().requestFocus();
         showDateInTextField();

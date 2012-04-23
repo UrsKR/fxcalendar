@@ -28,8 +28,4 @@ public class CalendarProperties {
     public boolean getShowWeekNumber() {
         return calendar.getShowWeekNumber();
     }
-
-    public FXCalendar getFxCalendar() {
-        return calendar;
-    }
 }

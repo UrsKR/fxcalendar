@@ -337,7 +337,7 @@ public class BasePane extends Group {
                         int month = dateCell.getCellMonth();
                         int date = dateCell.getCellDate();
                         Calendar calendar = FXCalendarUtility.getDate(date, month, year);
-                        properties.getFxCalendar().select(calendar.getTime());
+                        datePicker.select(calendar.getTime());
                     }
                 });
 
@@ -378,7 +378,7 @@ public class BasePane extends Group {
             @Override
             public void handle(ActionEvent event) {
                 Calendar today = FXCalendarUtility.getCalendarSetToToday();
-                properties.getFxCalendar().select(today.getTime());
+                datePicker.select(today.getTime());
             }
         });
         footerPane.getChildren().add(todayButton);
