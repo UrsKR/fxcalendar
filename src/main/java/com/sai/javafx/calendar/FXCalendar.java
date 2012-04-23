@@ -29,7 +29,6 @@ public class FXCalendar extends HBox {
     private SimpleIntegerProperty selectedDate = new SimpleIntegerProperty();
     private SimpleIntegerProperty selectedMonth = new SimpleIntegerProperty();
     private SimpleIntegerProperty selectedYear = new SimpleIntegerProperty();
-    private SimpleBooleanProperty triggered = new SimpleBooleanProperty();
     private final SimpleObjectProperty<Color> baseColor = new SimpleObjectProperty<>();
     private SimpleDoubleProperty dateTextWidth = new SimpleDoubleProperty(74);
     private SimpleObjectProperty<Date> value = new SimpleObjectProperty<>();
@@ -121,25 +120,6 @@ public class FXCalendar extends HBox {
     }
 
     private void configureListeners() {
-
-        /* Adding listeners when the date cell is selected. */
-        triggered.addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> paramObservableValue, Boolean oldValue, Boolean newValue) {
-                if (newValue) {
-                    FXCalendarUtility utility = new FXCalendarUtility();
-                    Integer day = selectedDateProperty().get();
-                    Integer month = selectedMonthProperty().get();
-                    Integer year = selectedYearProperty().get();
-                    if (day != 0 && month > -1 && year != 0) {
-                        String date = utility.getFormattedDate(day, month, year);
-                        valueProperty().set(utility.convertStringtoDate(date));
-                    }
-                    setTriggered(false);
-                }
-            }
-        });
-
         /*
            * Changes to be done in text box on change of seletedDate ,
            * selectedMonth and selectedYear in DatePicker.
@@ -381,15 +361,17 @@ public class FXCalendar extends HBox {
         return fxCalendarUtility;
     }
 
-    public void setTriggered(Boolean triggered) {
-        this.triggered.set(triggered);
-    }
-
     public TextField getTextField() {
         return dateTxtField;
     }
 
     public ChangeListener<Boolean> getFocusOutListener() {
         return this.focusOutListener;
+    }
+
+    void finishSelection() {
+        getTextField().requestFocus();
+        showDateInTextField();
+        hidePopup();
     }
 }

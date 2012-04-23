@@ -344,11 +344,8 @@ public class BasePane extends Group {
                         fxCalendar.setSelectedDate(date);
 						fxCalendar.setSelectedMonth(month);
 						fxCalendar.setSelectedYear(year);
-						fxCalendar.setTriggered(true);
 
-						fxCalendar.getTextField().requestFocus();
-						fxCalendar.showDateInTextField();
-						fxCalendar.hidePopup();
+                        fxCalendar.finishSelection();
 					}
 				});
 
@@ -364,7 +361,7 @@ public class BasePane extends Group {
 		}
 	}
 
-	private Rectangle2D calculateDeskBounds() {
+    private Rectangle2D calculateDeskBounds() {
 		int divFactor = getColCount();
 		double width = datePickerPane.getBounds().getWidth() / divFactor;
 		double height = 120 / 6;
@@ -393,7 +390,7 @@ public class BasePane extends Group {
                 fxCalendar.setSelectedDate(today.get(Calendar.DAY_OF_MONTH));
                 fxCalendar.setSelectedMonth(today.get(Calendar.MONTH));
                 fxCalendar.setSelectedYear(today.get(Calendar.YEAR));
-                fxCalendar.hidePopup();
+                fxCalendar.finishSelection();
             }
         });
 		footerPane.getChildren().add(todayButton);
