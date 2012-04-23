@@ -1,6 +1,5 @@
 package com.sai.javafx.calendar;
 
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -369,7 +368,8 @@ public class FXCalendar extends HBox {
         return this.focusOutListener;
     }
 
-    void finishSelection() {
+    void select(Date time) {
+        setValue(time);
         getTextField().requestFocus();
         showDateInTextField();
         hidePopup();
