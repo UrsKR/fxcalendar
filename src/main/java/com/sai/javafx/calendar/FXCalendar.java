@@ -8,15 +8,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
-import javafx.stage.Popup;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -30,19 +27,18 @@ public class FXCalendar extends HBox implements DateSelection {
     private SimpleDoubleProperty dateTextWidth = new SimpleDoubleProperty(74);
     private SimpleObjectProperty<Date> value = new SimpleObjectProperty<>();
     private DateTextField dateTxtField;
-    private Popup popup;
-    private DatePicker datePicker;
     private final String DEFAULT_STYLE_CLASS = "fx-calendar";
-    private DatePickerPane datePickerPane;
     private CalendarProperties properties;
+    private DatePickerPopup pickerPopup;
 
     public FXCalendar() {
         this(new CalendarProperties());
     }
 
     public FXCalendar(CalendarProperties properties) {
-        this.properties = properties;
         super.getStyleClass().add(DEFAULT_STYLE_CLASS);
+        this.properties = properties;
+        this.pickerPopup = new DatePickerPopup(this, properties, this);
         setAlignment(Pos.CENTER);
         configureCalendar();
         configureListeners();
@@ -50,18 +46,14 @@ public class FXCalendar extends HBox implements DateSelection {
 
     private void configureCalendar() {
         final DateFormatValidator dateFormatValidator = new DateFormatValidator();
-        popup = new Popup();
-        popup.setAutoHide(true);
-        popup.setAutoFix(true);
-        popup.setHideOnEscape(true);
 
         addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             public void handle(KeyEvent event) {
                 if (KeyCode.UP.equals(event.getCode()) || KeyCode.DOWN.equals(event.getCode()) || KeyCode.ENTER.equals(event.getCode())) {
-                    initiatePopUp();
-                    showPopup();
+                    pickerPopup.setInitialDate(getInitialDateForPicker());
+                    pickerPopup.initiateAndShow();
                 } else if (KeyCode.TAB.equals(event.getCode())) {
-                    hidePopup();
+                    pickerPopup.hidePopup();
                 }
             }
         });
@@ -78,11 +70,19 @@ public class FXCalendar extends HBox implements DateSelection {
         popupButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent paramT) {
-                initiatePopUp();
-                showPopup();
+                pickerPopup.setInitialDate(getInitialDateForPicker());
+                pickerPopup.initiateAndShow();
             }
         });
         return popupButton;
+    }
+
+    private Date getInitialDateForPicker() {
+        Date currentDate = getValue();
+        if (currentDate == null) {
+            return new Date();
+        }
+        return currentDate;
     }
 
     private void createDateTextField(final DateFormatValidator dateFormatValidator) {
@@ -133,9 +133,7 @@ public class FXCalendar extends HBox implements DateSelection {
         properties.localeProperty().addListener(new ChangeListener<Locale>() {
             @Override
             public void changed(ObservableValue<? extends Locale> arg0, Locale arg1, Locale arg2) {
-                if (datePicker != null) {
-                    refreshLocale(arg2);
-                }
+                pickerPopup.refreshDisplayText();
             }
         });
 
@@ -165,56 +163,6 @@ public class FXCalendar extends HBox implements DateSelection {
         }
     }
 
-    public void refreshLocale(Locale locale) {
-        datePickerPane.getBasePane().setLabelText();
-        datePickerPane.getBasePane().setWeekLabels();
-        datePickerPane.getTopPane().setTopMonths();
-    }
-
-    /**
-     * Method to initiate the pop up before showing.
-     */
-    private void initiatePopUp() {
-        if (datePicker == null) {
-            Date intialDate = getInitialDateForPicker();
-            datePicker = new DatePicker(intialDate, properties, this);
-            datePickerPane = new DatePickerPane(datePicker, properties);
-            popup.getContent().add(datePickerPane);
-        }
-        datePickerPane.getBasePane().generateDates();
-        datePickerPane.showBasePane();
-    }
-
-    private Date getInitialDateForPicker() {
-        Date currentDate = getValue();
-        if (currentDate == null) {
-            return new Date();
-        }
-        return currentDate;
-    }
-
-    /**
-     * Method to show the pop up.
-     */
-    private void showPopup() {
-        Parent parent = getParent();
-        Bounds childBounds = getBoundsInParent();
-        Bounds parentBounds = parent.localToScene(parent.getBoundsInLocal());
-        double layoutX = childBounds.getMinX() + parentBounds.getMinX() + parent.getScene().getX() + parent.getScene().getWindow().getX();
-        double layoutY = childBounds.getMaxY() + parentBounds.getMinY() + parent.getScene().getY() + parent.getScene().getWindow().getY();
-        popup.show(this, layoutX, layoutY);
-    }
-
-    /**
-     * Method to hide the pop up.
-     */
-    public void hidePopup() {
-        popup.hide();
-    }
-
-    /**
-     * @return the dateTextWidth
-     */
     public Double getDateTextWidth() {
         return dateTextWidth.get();
     }
@@ -223,9 +171,6 @@ public class FXCalendar extends HBox implements DateSelection {
         this.dateTextWidth.set(width);
     }
 
-    /**
-     * @return dateTextWidth Property
-     */
     public SimpleDoubleProperty dateTextWidthProperty() {
         return dateTextWidth;
     }
@@ -266,9 +211,6 @@ public class FXCalendar extends HBox implements DateSelection {
         return selectedYear;
     }
 
-    /**
-     * @return the value
-     */
     public Date getValue() {
         return this.value.get();
     }
@@ -307,6 +249,6 @@ public class FXCalendar extends HBox implements DateSelection {
         setValue(time);
         getTextField().requestFocus();
         showDateInTextField();
-        hidePopup();
+        pickerPopup.hidePopup();
     }
 }
