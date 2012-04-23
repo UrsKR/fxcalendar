@@ -336,9 +336,6 @@ public class BasePane extends Group {
                         int year = dateCell.getCellYear();
                         int month = dateCell.getCellMonth();
                         int date = dateCell.getCellDate();
-                        datePicker.setSelectedYear(year);
-                        datePicker.setSelectedMonth(month);
-                        datePicker.setSelectedDate(date);
                         Calendar calendar = FXCalendarUtility.getDate(date, month, year);
                         properties.getFxCalendar().select(calendar.getTime());
                     }
