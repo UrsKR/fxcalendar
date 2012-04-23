@@ -1,9 +1,5 @@
 package com.sai.javafx.calendar;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -15,7 +11,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -24,6 +19,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class FXCalendar extends HBox {
 
@@ -396,37 +395,5 @@ public class FXCalendar extends HBox {
 
 	public ChangeListener<Boolean> getFocusOutListener() {
 		return this.focusOutListener;
-	}
-
-	/**
-	 * Cell Inteface
-	 *
-	 * @author Sai.Dandem
-	 */
-	public static interface Cell {
-		Node getNode();
-
-		void updateItem(String item);
-	}
-
-	/**
-	 * Simple Cell Class
-	 * 
-	 * @author Sai.Dandem
-	 */
-	public static class DateTextField extends TextField implements Cell {
-		public DateTextField() {
-			setEditable(true);
-			setPrefHeight(22);
-			setPromptText("Select Date");
-		}
-
-		public Node getNode() {
-			return this;
-		}
-
-		public void updateItem(String item) {
-			setText(item != null ? item.toString() : "");
-		}
 	}
 }

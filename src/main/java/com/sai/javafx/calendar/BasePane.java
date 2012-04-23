@@ -1,5 +1,7 @@
 package com.sai.javafx.calendar;
 
+import com.sai.javafx.calendar.cell.DateCell;
+import com.sai.javafx.calendar.cell.WeekCell;
 import com.sai.javafx.calendar.controls.Arrow;
 import com.sai.javafx.calendar.controls.BaseNavigatorArrowButton;
 import com.sai.javafx.calendar.controls.NormalButton;
@@ -30,8 +32,8 @@ public class BasePane extends Group {
 	private StackPane deskPane;
 	private StackPane footerPane;
 	private Label displayLabel;
-	private ObservableList<FXCalendarCell.WeekCell> weekCellList = FXCollections.observableArrayList();
-	private ObservableList<FXCalendarCell.DateCell> dateCellList = FXCollections.observableArrayList();
+	private ObservableList<WeekCell> weekCellList = FXCollections.observableArrayList();
+	private ObservableList<DateCell> dateCellList = FXCollections.observableArrayList();
 	public static final String WEEKNUMER_LABEL = "Wk.";
 	private BaseNavigatorArrowButton prevMonthBtn;
 
@@ -140,7 +142,7 @@ public class BasePane extends Group {
 		tp.setPrefColumns(count);
 
 		generateWeekCells(count);
-		for (FXCalendarCell.WeekCell weekCell : weekCellList) {
+		for (WeekCell weekCell : weekCellList) {
 			tp.getChildren().add(weekCell);
 		}
 
@@ -151,17 +153,17 @@ public class BasePane extends Group {
 
 	private void generateWeekCells(int count) {
 		Rectangle2D cellBounds = calculateBounds();
-		FXCalendarCell.WeekCell cell;
-		List<FXCalendarCell.WeekCell> wkCells = new ArrayList<FXCalendarCell.WeekCell>(count);
+		WeekCell cell;
+		List<WeekCell> wkCells = new ArrayList<WeekCell>(count);
 		if (datePicker.getShowWeekNumber()) {
-			cell = new FXCalendarCell().new WeekCell("week_num", WEEKNUMER_LABEL, cellBounds.getWidth(), cellBounds.getHeight());
+			cell = new WeekCell("week_num", WEEKNUMER_LABEL, cellBounds.getWidth(), cellBounds.getHeight());
 			FXCalendarUtility.setBaseColorToNode(cell.getTxt(), Color.BLUE);
 			wkCells.add(cell);
 		}
 
 		String[] wks = datePicker.getFXCalendarUtility().getShortestWeekDays(datePicker.getLocale());
 		for (int i = 1; i < wks.length; i++) {
-			cell = new FXCalendarCell().new WeekCell("week_" + wks[i], wks[i], cellBounds.getWidth(), cellBounds.getHeight());
+			cell = new WeekCell("week_" + wks[i], wks[i], cellBounds.getWidth(), cellBounds.getHeight());
 			FXCalendarUtility.setBaseColorToNode(cell.getTxt(), datePicker.getBaseColor());
 			wkCells.add(cell);
 		}
@@ -204,7 +206,7 @@ public class BasePane extends Group {
 
 		generateDateCells();
 
-		for (FXCalendarCell.DateCell dateCell : dateCellList) {
+		for (DateCell dateCell : dateCellList) {
 			tp.getChildren().add(dateCell);
 		}
 
@@ -238,11 +240,11 @@ public class BasePane extends Group {
 	private void generateDateCells() {
 		int count = getColCount();
 		Rectangle2D cellBounds = calculateDeskBounds();
-		FXCalendarCell.DateCell dateCell;
-		List<FXCalendarCell.DateCell> dateCells = new ArrayList<FXCalendarCell.DateCell>(count * 6);
+		DateCell dateCell;
+		List<DateCell> dateCells = new ArrayList<DateCell>(count * 6);
 
 		for (int i = 0; i < (count * 6); i++) {
-			dateCell = new FXCalendarCell().new DateCell("cell" + i, cellBounds.getWidth(), cellBounds.getHeight());
+			dateCell = new DateCell("cell" + i, cellBounds.getWidth(), cellBounds.getHeight());
 			FXCalendarUtility.setBaseColorToNode(dateCell, datePicker.getBaseColor());
 			// For Week Number cells
 			if (datePicker.getShowWeekNumber() && i % 8 == 0) {
@@ -286,7 +288,7 @@ public class BasePane extends Group {
 		int fxMonth = datePicker.getFxCalendar().getSelectedMonth();
 		int fxYear = datePicker.getFxCalendar().getSelectedYear();
 
-		for (final FXCalendarCell.DateCell dateCell : dateCellList) {
+		for (final DateCell dateCell : dateCellList) {
 			if (!dateCell.isWeekNumCell()) {
 				dateCell.getStyleClass().remove("fx-calendar-basic-datecell-selected");
 				dateCell.getTxt().setText(dummyDate.get(Calendar.DAY_OF_MONTH) + "");
