@@ -16,7 +16,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 
 import java.util.Calendar;
@@ -28,7 +27,6 @@ public class FXCalendar extends HBox implements DateSelection {
     private SimpleIntegerProperty selectedDate = new SimpleIntegerProperty();
     private SimpleIntegerProperty selectedMonth = new SimpleIntegerProperty();
     private SimpleIntegerProperty selectedYear = new SimpleIntegerProperty();
-    private final SimpleObjectProperty<Color> baseColor = new SimpleObjectProperty<>();
     private SimpleDoubleProperty dateTextWidth = new SimpleDoubleProperty(74);
     private SimpleObjectProperty<Date> value = new SimpleObjectProperty<>();
     private DateTextField dateTxtField;
@@ -36,12 +34,10 @@ public class FXCalendar extends HBox implements DateSelection {
     private DatePicker datePicker;
     private final String DEFAULT_STYLE_CLASS = "fx-calendar";
     private DatePickerPane datePickerPane;
-    private CalendarProperties properties;
+    private CalendarProperties properties = new CalendarProperties();
 
     public FXCalendar() {
-        properties = new CalendarProperties(FXCalendar.this);
         super.getStyleClass().add(DEFAULT_STYLE_CLASS);
-        this.baseColor.set(Color.web("#313131"));
         setAlignment(Pos.CENTER);
         configureCalendar();
         configureListeners();
@@ -210,26 +206,6 @@ public class FXCalendar extends HBox implements DateSelection {
     public void hidePopup() {
         popup.hide();
     }
-
-    /**
-     * @return the baseColor
-     */
-    public Color getBaseColor() {
-        return baseColor.get();
-    }
-
-    public void setBaseColor(Color color) {
-        this.baseColor.set(color);
-    }
-
-    /**
-     * @return baseColor Property
-     */
-    public SimpleObjectProperty<Color> baseColorProperty() {
-        return baseColor;
-    }
-
-
 
     /**
      * @return the dateTextWidth

@@ -220,7 +220,7 @@ public class FXCalendarDemo extends Application {
 
         FeatureLabel lbl1 = new FeatureLabel("Select the language ( Red Theme ): ");
         final FXCalendar calendar1 = new FXCalendar();
-        calendar1.setBaseColor(Color.web("#940C02"));
+        calendar1.getCalendarProperties().setBaseColor(Color.web("#940C02"));
 
         HBox hb = new HBox();
         hb.setSpacing(10);
@@ -228,7 +228,7 @@ public class FXCalendarDemo extends Application {
 
         FeatureLabel lbl2 = new FeatureLabel("Select the date ( Black Theme ) : ");
         final FXCalendar calendar2 = new FXCalendar();
-        calendar2.setBaseColor(Color.BLACK);
+        calendar2.getCalendarProperties().setBaseColor(Color.BLACK);
 
         HBox hb1 = new HBox();
         hb1.setSpacing(10);

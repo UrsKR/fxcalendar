@@ -10,15 +10,10 @@ public class CalendarProperties {
     private final SimpleObjectProperty<Color> baseColor = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<Locale> locale = new SimpleObjectProperty<>();
     private boolean showWeekNumber = false;
-    private final FXCalendar calendar;
 
-    public CalendarProperties(FXCalendar calendar) {
-        this.calendar = calendar;
+    public CalendarProperties() {
         setLocale(Locale.ENGLISH);
-    }
-
-    public Color getBaseColor() {
-        return calendar.getBaseColor();
+        this.baseColor.set(Color.web("#313131"));
     }
 
     public Locale getLocale() {
@@ -41,4 +36,15 @@ public class CalendarProperties {
         this.showWeekNumber = showWeekNumber;
     }
 
+    public Color getBaseColor() {
+        return baseColor.get();
+    }
+
+    public void setBaseColor(Color color) {
+        this.baseColor.set(color);
+    }
+
+    public SimpleObjectProperty<Color> baseColorProperty() {
+        return baseColor;
+    }
 }
