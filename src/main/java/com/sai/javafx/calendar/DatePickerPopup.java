@@ -5,8 +5,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.stage.Popup;
 
-import java.util.Date;
-
 public class DatePickerPopup {
 
     private final Popup popup = new Popup();
@@ -15,7 +13,6 @@ public class DatePickerPopup {
     private final DateSelection dateSelection;
     private DatePickerPane datePickerPane;
     private DatePicker datePicker;
-    private Date initialDate = new Date();
 
     public DatePickerPopup(Node parentNode, CalendarProperties properties, DateSelection dateSelection) {
         this.parentNode = parentNode;
@@ -31,10 +28,6 @@ public class DatePickerPopup {
         showPopup();
     }
 
-    public void setInitialDate(Date date) {
-        this.initialDate = date;
-    }
-
     public void hide() {
         popup.hide();
     }
@@ -46,7 +39,7 @@ public class DatePickerPopup {
 
     private void initiatePopUp() {
         if (datePicker == null) {
-            datePicker = new DatePicker(initialDate, properties, dateSelection);
+            datePicker = new DatePicker(properties, dateSelection);
             datePickerPane = new DatePickerPane(datePicker, properties);
             popup.getContent().add(datePickerPane);
         }

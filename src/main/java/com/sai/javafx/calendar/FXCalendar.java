@@ -37,7 +37,7 @@ public class FXCalendar extends HBox implements DateSelection {
     public FXCalendar(CalendarProperties properties) {
         super.getStyleClass().add(DEFAULT_STYLE_CLASS);
         this.properties = properties;
-        this.pickerPopup = new DatePickerPopup(this, properties, this);
+        this.pickerPopup = new DatePickerPopup(this, properties, new TodayDefaultSelection(this));
         setAlignment(Pos.CENTER);
         configureCalendar();
         configureListeners();
@@ -49,7 +49,6 @@ public class FXCalendar extends HBox implements DateSelection {
         addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             public void handle(KeyEvent event) {
                 if (KeyCode.UP.equals(event.getCode()) || KeyCode.DOWN.equals(event.getCode()) || KeyCode.ENTER.equals(event.getCode())) {
-                    pickerPopup.setInitialDate(new TodayDefaultSelection(FXCalendar.this).getSelection());
                     pickerPopup.show();
                 } else if (KeyCode.TAB.equals(event.getCode())) {
                     pickerPopup.hide();
@@ -57,7 +56,7 @@ public class FXCalendar extends HBox implements DateSelection {
             }
         });
         createDateTextField(dateFormatValidator);
-        Node popupButton = new DatePopupButton(pickerPopup, new TodayDefaultSelection(this)).getComponent();
+        Node popupButton = new DatePopupButton(pickerPopup).getComponent();
         getChildren().addAll(dateTxtField, popupButton);
     }
 

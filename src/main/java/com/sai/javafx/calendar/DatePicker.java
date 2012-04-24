@@ -13,10 +13,10 @@ public class DatePicker implements DateSelection {
     private final CalendarProperties properties;
     private final DateSelection selection;
 
-    public DatePicker(Date initialDate, CalendarProperties properties, DateSelection selection) {
+    public DatePicker(CalendarProperties properties, DateSelection selection) {
         this.properties = properties;
         this.selection = selection;
-        setTo(initialDate);
+        setTo(selection.getSelection());
     }
 
     public int getSelectedDate() {

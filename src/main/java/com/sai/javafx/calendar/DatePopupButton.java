@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 public class DatePopupButton {
     private final Button popupButton = new Button();
 
-    public DatePopupButton(final DatePickerPopup popup, final DateSelection selection) {
+    public DatePopupButton(final DatePickerPopup popup) {
         popupButton.getStyleClass().add("dateButton");
         popupButton.setGraphic(FXCalendarUtility.getDateImage());
         popupButton.setFocusTraversable(false);
@@ -19,7 +19,6 @@ public class DatePopupButton {
                 if (popup.isVisible()) {
                     popup.hide();
                 } else {
-                    popup.setInitialDate(selection.getSelection());
                     popup.show();
                 }
             }
