@@ -2,8 +2,9 @@ This is a fork of http://code.google.com/p/javafx-calendar/.
 
 As the original, it is licensed under the Apache License v2.0.
 
-Initial work was sponsored by **[IDOS AE GmbH](http://www.idos.de)**.
-When setting out, my goal was to make the code more flexible, so one could use only parts of it and use it with different layout managers.
+Initial work was sponsored by **[IDOS AE GmbH](http://www.idos.de)**.  
+When setting out, my goal was to make the code more flexible. I wanted to use it with a German locale, to influence the layout and to use it with [JodaTime]
+(www.joda.org).
 
 ## To Build
 * You need JavaFX 2.1 and JDK 7
@@ -11,4 +12,18 @@ When setting out, my goal was to make the code more flexible, so one could use o
 * Define a property ``${jdk}`` in you Maven ``settings.xml``, pointing to your JDK installation folder.
 
 ## To See
-* Run ``com.sai.javafx.calendar.demo.FXCalendarDemo``
+* Run ``FXCalendarDemo``
+
+## To Use
+* For a one stop solution, instantiate a ``FXCalendar`` and add it to your pane.
+* For a clickable calendar image, use the ``DatePopupButton`` and add its component to your pane.
+* If you just want the calendar popup, create your own button, and make it trigger a ``DatePickerPopup``
+
+## Example
+
+```
+    CalendarProperties properties = new CalendarProperties();
+    DateSelection selection = ...; //This is where the selected date ends up
+    DatePickerPopup popup = new DatePickerPopup(representation, properties, selection);
+    DatePopupButton popUpButton = new DatePopupButton(popup);
+```
