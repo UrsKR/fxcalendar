@@ -1,6 +1,0 @@
-This is a heavily modified fork of http://code.google.com/p/javafx-calendar/.
-
-Since the original was licensed as Apache 2.0, we are free to
-modify and redistribute as a derivative work under a different license.
-
-Main goal was to make it compatible with German date format and to make it adhere to the MIG layout manager.
