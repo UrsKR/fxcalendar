@@ -14,6 +14,9 @@ When setting out, my goal was to make the code more flexible. I wanted to use it
 ## To See
 * Run ``FXCalendarDemo``
 
+![Main view](https://github.com/UrsKR/fxcalendar/raw/master/screenshots/calendarmain.PNG)
+![Quick navigation](https://github.com/UrsKR/fxcalendar/raw/master/screenshots/calendaryearchooser.PNG)
+
 ## To Use
 * For a one stop solution, instantiate a ``FXCalendar`` and add it to your pane.
 * For a clickable calendar image, use the ``DatePopupButton`` and add its component to your pane.
