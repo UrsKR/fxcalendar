@@ -48,13 +48,11 @@ public class FXCalendarDemo extends Application {
         configureFooter();
         configureCenter();
 
-        int i = 1;
-        configureSimpleDate(i++);
-        configureDefaultDate(i++);
-        configureWeekNumber(i++);
-        configureLocaleCalendar(i++);
-        configureCalendarTheme(i++);
-
+        configureSimpleDate();
+        configureDefaultDate();
+        configureWeekNumber();
+        configureLocaleCalendar();
+        configureCalendarTheme();
     }
 
     private void configureStage() {
@@ -117,10 +115,10 @@ public class FXCalendarDemo extends Application {
         root.setCenter(sp);
     }
 
-    private void configureSimpleDate(int i) {
+    private void configureSimpleDate() {
         VBox vb = new VBox();
         vb.setSpacing(10);
-        FeatureHeader header = new FeatureHeader("#" + i + " : Simple Calendar Control");
+        FeatureHeader header = new FeatureHeader("Simple Calendar Control");
         FeatureLabel lbl = new FeatureLabel("Select the date : ");
 
         HBox hb = new HBox();
@@ -131,10 +129,10 @@ public class FXCalendarDemo extends Application {
         center.getChildren().add(vb);
     }
 
-    private void configureDefaultDate(int i) {
+    private void configureDefaultDate() {
         VBox vb = new VBox();
         vb.setSpacing(10);
-        FeatureHeader header = new FeatureHeader("#" + i + " : Calendar Control with Default date and Custom width");
+        FeatureHeader header = new FeatureHeader("Calendar Control with Default date and Custom width");
         FeatureLabel lbl = new FeatureLabel("Select the date : ");
         final FXCalendar calendar = new FXCalendar();
         calendar.setPrefWidth(150);
@@ -162,10 +160,10 @@ public class FXCalendarDemo extends Application {
         center.getChildren().add(vb);
     }
 
-    private void configureWeekNumber(int i) {
+    private void configureWeekNumber() {
         VBox vb = new VBox();
         vb.setSpacing(10);
-        FeatureHeader header = new FeatureHeader("#" + i + " : Calendar Control with Week Number display");
+        FeatureHeader header = new FeatureHeader("Calendar Control with Week Number display");
         FeatureLabel lbl = new FeatureLabel("Select the date : ");
         CalendarProperties properties = new CalendarProperties();
         properties.setShowWeekNumber(true);
@@ -179,26 +177,29 @@ public class FXCalendarDemo extends Application {
         center.getChildren().add(vb);
     }
 
-    private void configureLocaleCalendar(int i) {
+    private void configureLocaleCalendar() {
         VBox vb = new VBox();
         vb.setSpacing(10);
-        FeatureHeader header = new FeatureHeader("#" + i + " : Calendar Control with Locale specific");
+        FeatureHeader header = new FeatureHeader("Calendar Control with Locale specific");
         FeatureLabel lbl1 = new FeatureLabel("Select the language : ");
         FeatureLabel lbl2 = new FeatureLabel("Select the date : ");
         final CalendarProperties properties = new CalendarProperties();
         final FXCalendar calendar = new FXCalendar(properties);
 
-        ObservableList<String> list = FXCollections.observableArrayList("English", "French", "German");
+        ObservableList<String> list = FXCollections.observableArrayList("Default", "English", "French", "German");
         final ChoiceBox<String> cb = new ChoiceBox<String>(list);
         cb.getSelectionModel().select(0);
         cb.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
-            public void changed(ObservableValue arg0, Number arg1, Number arg2) {
-                if (arg2.intValue() == 0) {
+            public void changed(ObservableValue arg0, Number arg1, Number newValue) {
+                int selectionIndex = newValue.intValue();
+                if (selectionIndex == 0) {
+                    properties.setLocale(Locale.getDefault());
+                } else if (selectionIndex == 1) {
                     properties.setLocale(Locale.ENGLISH);
-                } else if (arg2.intValue() == 1) {
+                } else if (selectionIndex == 2) {
                     properties.setLocale(Locale.FRENCH);
-                } else {
+                } else if (selectionIndex == 3) {
                     properties.setLocale(Locale.GERMAN);
                 }
             }
@@ -215,10 +216,10 @@ public class FXCalendarDemo extends Application {
         center.getChildren().add(vb);
     }
 
-    private void configureCalendarTheme(int i) {
+    private void configureCalendarTheme() {
         VBox vb = new VBox();
         vb.setSpacing(10);
-        FeatureHeader header = new FeatureHeader("#" + i + " : Calendar Control with different Themes");
+        FeatureHeader header = new FeatureHeader("Calendar Control with different Themes");
 
         FeatureLabel lbl1 = new FeatureLabel("Select the language ( Red Theme ): ");
         CalendarProperties properties = new CalendarProperties();

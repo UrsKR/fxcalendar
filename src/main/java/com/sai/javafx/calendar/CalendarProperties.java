@@ -7,14 +7,9 @@ import java.util.Locale;
 
 public class CalendarProperties {
 
-    private final SimpleObjectProperty<Color> baseColor = new SimpleObjectProperty<>();
-    private final SimpleObjectProperty<Locale> locale = new SimpleObjectProperty<>();
+    private final SimpleObjectProperty<Color> baseColor = new SimpleObjectProperty<>(Color.web("#313131"));
+    private final SimpleObjectProperty<Locale> locale = new SimpleObjectProperty<>(Locale.getDefault());
     private boolean showWeekNumber = false;
-
-    public CalendarProperties() {
-        setLocale(Locale.ENGLISH);
-        setBaseColor(Color.web("#313131"));
-    }
 
     public Locale getLocale() {
         return locale.get();
