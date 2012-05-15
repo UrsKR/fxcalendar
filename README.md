@@ -4,7 +4,7 @@ As the original, it is licensed under the Apache License v2.0.
 
 Initial work was sponsored by **[IDOS AE GmbH](http://www.idos.de)**.  
 When setting out, my goal was to make the code more flexible. I wanted to use it with a German locale, to influence the layout and to use it with [JodaTime]
-(www.joda.org).
+(http://joda-time.sourceforge.net/).
 
 ## To Build
 * You need JavaFX 2.1 and JDK 7
@@ -13,6 +13,9 @@ When setting out, my goal was to make the code more flexible. I wanted to use it
 
 ## To See
 * Run ``FXCalendarDemo``
+
+![Main view](https://github.com/UrsKR/fxcalendar/raw/master/screenshots/calendarmain.PNG)
+![Quick navigation](https://github.com/UrsKR/fxcalendar/raw/master/screenshots/calendaryearchooser.PNG)
 
 ## To Use
 * For a one stop solution, instantiate a ``FXCalendar`` and add it to your pane.
